@@ -13,7 +13,7 @@ import { Container } from "./styles";
 const Home: React.FC = () => {
   const sectionItem = [
     {
-      name: "Cadeira MaxRacer Blue Agressive",
+      name: "Cadeira2 MaxRacer Blue Agressive",
       description: [
         "Gamer profissional ou não, você precisa de uma cadeira focada em    oferecer mais conforto para horas de jogo.",
         "    Ajuste braços, encosto, altura e esteja pronto para o jogo.",
