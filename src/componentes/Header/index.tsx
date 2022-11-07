@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import { Container } from "./styles";
@@ -43,6 +43,10 @@ const Header: React.FC = () => {
   function toggleMenu() {
     setShowMenu((state) => !state);
   }
+
+  useEffect(() => {
+    return () => setShowMenu(false);
+  }, []);
 
   return (
     <Container showMenu={showMenu}>
