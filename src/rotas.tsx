@@ -6,6 +6,7 @@ import Cadastro from "./pages/Cadastro";
 import Conta from "./pages/Conta";
 import Login from "./pages/Login";
 import EsqueciASenha from "./pages/EsqueciASenha";
+import CadastroProduto from "./pages/CadastroProduto";
 
 export function AppRoutes() {
   return (
@@ -17,6 +18,7 @@ export function AppRoutes() {
         <Route path="/perfil" element={<Conta />} />
         <Route path="/login" element={<Login />} />
         <Route path="/esqueci-a-senha" element={<EsqueciASenha />} />
+        <Route path="/cadastro/produto" element={<CadastroProduto />} />
       </Routes>
     </Router>
   );

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  padding: 20px 0;
+  padding-top: 20px;
   margin-top: 40px;
 
   .bold {

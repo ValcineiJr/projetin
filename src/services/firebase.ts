@@ -1,4 +1,12 @@
 import { initializeApp } from "firebase/app";
+
+import {
+  uploadBytesResumable,
+  getStorage,
+  ref as storageRef,
+  getDownloadURL,
+} from "firebase/storage";
+
 import {
   getAuth,
   GoogleAuthProvider,
@@ -29,6 +37,7 @@ const firebaseApp = initializeApp(firebaseConfig);
 
 const auth = getAuth();
 const database = getFirestore(firebaseApp);
+const storage = getStorage(firebaseApp);
 
 export {
   firebaseApp,
@@ -44,4 +53,8 @@ export {
   getDoc,
   signInWithEmailAndPassword,
   signOut,
+  storage,
+  storageRef,
+  uploadBytesResumable,
+  getDownloadURL,
 };

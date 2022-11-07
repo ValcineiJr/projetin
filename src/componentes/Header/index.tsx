@@ -79,6 +79,9 @@ const Header: React.FC = () => {
                       </li>
                     );
                   }
+                  if (item.name === "Criar conta") {
+                    return null;
+                  }
                 }
 
                 if (item.name === "Contato") {
