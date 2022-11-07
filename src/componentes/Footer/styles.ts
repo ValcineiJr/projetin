@@ -16,8 +16,6 @@ export const Container = styled.div`
   }
 
   .contacts {
-    width: 100%;
-
     gap: 30px 0;
 
     justify-content: space-around;

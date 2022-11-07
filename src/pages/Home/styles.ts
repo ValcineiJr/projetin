@@ -19,6 +19,8 @@ export const Container = styled.div`
       width: 100%;
       height: 550px;
 
+      z-index: 1 !important;
+
       img {
         width: 100%;
         height: 100%;

@@ -24,7 +24,7 @@ type User = {
   id: string;
   name: string;
   email: string;
-  adress: string;
+  address: string;
   telefone: string;
   birth_date: Date;
   cpf: string;
@@ -46,6 +46,13 @@ type AuthContextType = {
   handleSignOut: () => Promise<void>;
   handleChangeEmail: (email: string) => Promise<boolean>;
   handleChangePassword: (email: string) => Promise<boolean>;
+  handleUpdateUser: (
+    username?: string,
+    address?: string,
+    telefone?: string,
+    birth_date?: string,
+    cpf?: string
+  ) => Promise<boolean>;
 };
 
 type AuthContextProviderProps = {
@@ -83,7 +90,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     name: string,
     email: string,
     password: string,
-    adress: string,
+    address: string,
     telefone: string,
     birth_date: Date,
     cpf: string
@@ -99,7 +106,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
         id: createdUser.user.uid,
         name,
         email,
-        adress,
+        address,
         telefone,
         birth_date,
         cpf,
@@ -137,6 +144,32 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
   async function handleSignOut() {
     await signOut(auth);
     setUser(null);
+  }
+
+  async function handleUpdateUser(
+    username?: string,
+    address?: string,
+    telefone?: string,
+    birth_date?: string,
+    cpf?: string
+  ) {
+    const u = auth.currentUser as any;
+    try {
+      await setDoc(
+        doc(database, "users", u.uid),
+        {
+          username,
+          address,
+          telefone,
+          birth_date,
+          cpf,
+        },
+        { merge: true }
+      );
+      return true;
+    } catch (err) {
+      return false;
+    }
   }
 
   async function handleChangeEmail(email: string) {
@@ -177,6 +210,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
         handleSignOut,
         handleChangeEmail,
         handleChangePassword,
+        handleUpdateUser,
       }}
     >
       {props.children}

@@ -7,11 +7,12 @@ import { Container } from "./styles";
 import { useTheme } from "styled-components";
 
 const Conta: React.FC = () => {
-  const { user, handleChangeEmail, handleChangePassword } = useAuth();
+  const { user, handleChangeEmail, handleChangePassword, handleUpdateUser } =
+    useAuth();
   const [username, setUsername] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [telefone, setTelefone] = React.useState("");
-  const [birt_date, setBirthDate] = React.useState<any>();
+  const [birth_date, setBirthDate] = React.useState<any>();
   const [address, setAddress] = React.useState("");
   const [cpf, setCpf] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -27,35 +28,58 @@ const Conta: React.FC = () => {
       setEmail(user.email);
       setTelefone(user.telefone);
       setBirthDate(user.birth_date);
-      setAddress(user.adress);
+      setAddress(user.address);
       setCpf(user.cpf);
     }
-  }, []);
+  }, [user]);
 
-  async function handleUpdateUser(e: any) {
+  async function handleUpdateUserLocal(e: any) {
     e.preventDefault();
 
-    const passwordResult = await handleChangePassword(password);
-    // const emailResult = await handleChangeEmail(email);
+    if (password !== "" && password === confirm_password) {
+      const passwordResult = await handleChangePassword(password);
 
-    // if (!emailResult) {
-    //   setMessage("Erro ao atualizar email");
-    //   setMessageColor(colors.error);
-    // }
-    if (!passwordResult) {
-      setMessage("Erro ao atualizar senha");
+      if (!passwordResult) {
+        setMessage("Erro ao atualizar senha");
+        setMessageColor(colors.error);
+      }
+    }
+
+    if (email !== user?.email) {
+      const emailResult = await handleChangeEmail(email);
+
+      if (!emailResult) {
+        setMessage("Erro ao atualizar email");
+        setMessageColor(colors.error);
+      }
+    }
+
+    const changeResult = await handleUpdateUser(
+      username,
+      address,
+      telefone,
+      birth_date,
+      cpf
+    );
+
+    if (changeResult) {
+      setMessage("Dados atualizados com sucesso!");
+
+      setMessageColor(colors.success);
+    } else {
+      setMessage("Erro ao atualizar dados");
       setMessageColor(colors.error);
     }
   }
 
   return (
     <Layout>
-      <Container>
+      <Container color={messageColor}>
         <div className="messageBox">
           <p>{message}</p>
         </div>
-        <form onSubmit={handleUpdateUser}>
-          <a href="#">Histórico de pedidos</a>
+        <form onSubmit={handleUpdateUserLocal}>
+          <a href="/history">Histórico de pedidos</a>
           <h1>Minha conta</h1>
           <div className="row">
             <input
@@ -103,7 +127,7 @@ const Conta: React.FC = () => {
             />
             <input
               type="date"
-              value={birt_date}
+              value={birth_date}
               onChange={(e) => setBirthDate(e.target.value)}
               placeholder="data"
             />

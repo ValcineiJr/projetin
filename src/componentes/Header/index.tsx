@@ -5,13 +5,15 @@ import { Link } from "react-router-dom";
 import { Container } from "./styles";
 
 import { AiTwotoneHome, AiOutlineLogin, AiOutlineLogout } from "react-icons/ai";
-import { FaShoppingCart, FaUserCircle } from "react-icons/fa";
+import { FaShoppingCart, FaUserCircle, FaBars } from "react-icons/fa";
 import { GiPerson } from "react-icons/gi";
 import { MdEmail } from "react-icons/md";
 import { useAuth } from "../../hook/useAuth";
 
 const Header: React.FC = () => {
   const { user, handleSignOut } = useAuth();
+  const [showMenu, setShowMenu] = React.useState(false);
+
   const menu1 = [
     { icon: AiTwotoneHome, name: "Home", to: "/" },
     { icon: FaShoppingCart, name: "Carrinho", to: "/carrinho" },
@@ -38,8 +40,17 @@ const Header: React.FC = () => {
     { to: "/categoria/MousePads", name: "Mouse Pads" },
   ];
 
+  function toggleMenu() {
+    setShowMenu((state) => !state);
+  }
+
   return (
-    <Container>
+    <Container showMenu={showMenu}>
+      <div className="logo-mobile">ScreedGames</div>
+      <button onClick={toggleMenu} className="menu">
+        <FaBars />
+      </button>
+
       <div className="wrapper">
         <div className="rowOne">
           <div className="logo">ScreedGames</div>
@@ -63,6 +74,26 @@ const Header: React.FC = () => {
                       </li>
                     );
                   }
+                }
+
+                if (item.name === "Contato") {
+                  return (
+                    <li>
+                      <MdEmail />
+                      <a
+                        onClick={(e) => {
+                          e.preventDefault();
+                          window.scrollTo({
+                            top: document.documentElement.scrollHeight,
+                            behavior: "smooth",
+                          });
+                        }}
+                        href="#"
+                      >
+                        Contato
+                      </a>
+                    </li>
+                  );
                 }
                 return (
                   <li>

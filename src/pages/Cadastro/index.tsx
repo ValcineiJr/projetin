@@ -13,7 +13,7 @@ const Cadastro: React.FC = () => {
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [confirm_password, setConfirm_password] = React.useState<string>("");
-  const [adress, setAdress] = React.useState<string>("");
+  const [address, setaddress] = React.useState<string>("");
   const [telefone, setTelefone] = React.useState<string>("");
   const [birth_date, setBirth_date] = React.useState<any>("");
   const [cpf, setCpf] = React.useState<string>("");
@@ -32,7 +32,7 @@ const Cadastro: React.FC = () => {
       email === "" ||
       password === "" ||
       confirm_password === "" ||
-      adress === "" ||
+      address === "" ||
       telefone === "" ||
       birth_date === "" ||
       cpf === ""
@@ -47,7 +47,7 @@ const Cadastro: React.FC = () => {
         username,
         email,
         password,
-        adress,
+        address,
         telefone,
         birth_date,
         cpf
@@ -108,8 +108,8 @@ const Cadastro: React.FC = () => {
             <input
               type="text"
               required
-              value={adress}
-              onChange={(e) => setAdress(e.target.value)}
+              value={address}
+              onChange={(e) => setaddress(e.target.value)}
               placeholder="Endereço"
             />
           </div>
