@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import { Container } from "./styles";
 
@@ -11,6 +11,7 @@ import { MdEmail } from "react-icons/md";
 import { useAuth } from "../../hook/useAuth";
 
 const Header: React.FC = () => {
+  let location = useLocation();
   const { user, handleSignOut } = useAuth();
   const [showMenu, setShowMenu] = React.useState(false);
 
@@ -45,8 +46,8 @@ const Header: React.FC = () => {
   }
 
   useEffect(() => {
-    return () => setShowMenu(false);
-  }, []);
+    setShowMenu(true);
+  }, [location]);
 
   return (
     <Container showMenu={showMenu}>
