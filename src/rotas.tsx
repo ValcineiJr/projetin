@@ -4,15 +4,19 @@ import Home from "./pages/Home";
 import Categorias from "./pages/Categorias";
 import Cadastro from "./pages/Cadastro";
 import Conta from "./pages/Conta";
+import Login from "./pages/Login";
+import EsqueciASenha from "./pages/EsqueciASenha";
 
 export function AppRoutes() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/categorias" element={<Categorias />} />
+        <Route path="/categoria/:id" element={<Categorias />} />
         <Route path="/cadastro" element={<Cadastro />} />
         <Route path="/perfil" element={<Conta />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/esqueci-a-senha" element={<EsqueciASenha />} />
       </Routes>
     </Router>
   );

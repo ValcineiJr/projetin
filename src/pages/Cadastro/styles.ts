@@ -1,19 +1,46 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
+interface ContainerProps {
+  color: string;
+}
+
+export const Container = styled.div<ContainerProps>`
   padding: 0 16px;
+  padding-top: 100px;
+
+  .messageBox,
   form {
     margin: 0 auto;
-    margin-top: 100px;
+    width: 100%;
+    max-width: 600px;
+  }
 
+  .messageBox {
+    display: ${({ color }) => (color !== null ? "flex" : "none")};
+    background-color: ${({ color }) => color};
+
+    transition: all 1s;
+
+    border-radius: 5px;
+
+    height: 40px;
+
+    color: white;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 1.6rem;
+
+    margin-bottom: 20px;
+  }
+
+  form {
     padding: 20px;
 
     border-radius: 10px;
 
     background-color: rgba(7, 7, 7, 0.8);
-
-    width: 100%;
-    max-width: 600px;
 
     display: flex;
     flex-direction: column;

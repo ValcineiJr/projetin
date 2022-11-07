@@ -2,12 +2,14 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   padding: 0 16px;
+  padding-top: 100px;
+  height: 60vh;
 
   .messageBox,
   form {
     margin: 0 auto;
     width: 100%;
-    max-width: 600px;
+    max-width: 400px;
   }
 
   .messageBox {
@@ -31,75 +33,51 @@ export const Container = styled.div`
   }
 
   form {
-    position: relative;
-    a {
-      position: absolute;
+    border-radius: 5px;
 
-      cursor: pointer;
-
-      font-size: 1.4rem;
-
-      text-decoration: underline;
-
-      color: white;
-
-      right: 16px;
-      top: 16px;
-    }
-
-    margin-top: 100px;
-
-    padding: 20px;
-
-    border-radius: 10px;
-
-    background-color: rgba(7, 7, 7, 0.8);
+    padding: 30px 16px;
 
     display: flex;
     flex-direction: column;
 
-    justify-content: center;
+    background-color: rgba(7, 7, 7, 0.8);
+
+    color: white;
+
     align-items: center;
 
     h1 {
       color: rgb(69, 69, 196);
       font-size: 3rem;
       font-weight: bold;
+    }
+
+    p {
+      font-size: 1.4rem;
+      text-align: center;
 
       margin: 16px 0;
     }
 
-    .row {
-      display: flex;
-      gap: 5px;
+    input {
+      height: 40px;
       width: 100%;
 
-      margin-bottom: 8px;
+      color: white;
+      background-color: rgb(47, 47, 80);
 
-      input {
-        height: 40px;
-        width: 100%;
+      padding-left: 16px;
 
+      border-radius: 6px;
+
+      border: 0;
+      outline: none;
+
+      margin: 10px 0;
+
+      ::placeholder {
         color: white;
-        background-color: rgb(47, 47, 80);
-
-        padding-left: 16px;
-
-        border-radius: 6px;
-
-        border: 0;
-        outline: none;
-
-        ::placeholder {
-          color: white;
-        }
       }
-    }
-
-    img {
-      width: 135px;
-      height: 135px;
-      border-radius: 20px;
     }
 
     button {
