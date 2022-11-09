@@ -6,7 +6,7 @@ import Layout from "../Layout";
 import InputMask from "react-input-mask";
 import { Container } from "./styles";
 
-const Cadastro: React.FC = () => {
+const CadastroFuncioario: React.FC = () => {
   const { colors } = useTheme();
 
   const [username, setUsername] = React.useState<string>("");
@@ -21,7 +21,7 @@ const Cadastro: React.FC = () => {
   const [messageColor, setMessageColor] = React.useState<any>(null);
   const [message, setMessage] = React.useState<any>("");
 
-  const { handleRegisterClient } = useAuth();
+  const { handleRegisterClient, user } = useAuth();
   let navigate = useNavigate();
 
   async function handleSubmitForm(e: any) {
@@ -51,7 +51,7 @@ const Cadastro: React.FC = () => {
         telefone,
         birth_date,
         cpf,
-        "user"
+        "employee"
       );
       if (result) {
         setMessageColor(colors.success);
@@ -64,6 +64,12 @@ const Cadastro: React.FC = () => {
     }
   }
 
+  React.useEffect(() => {
+    if (user?.level !== "admin") {
+      navigate("/");
+    }
+  }, [navigate, user]);
+
   return (
     <Layout>
       <Container color={messageColor}>
@@ -72,7 +78,7 @@ const Cadastro: React.FC = () => {
         </div>
         <form onSubmit={handleSubmitForm}>
           <img src={require("../../assets/img/logo.png")} alt="" />
-          <h1>Cadastro</h1>
+          <h1>Cadastrar funcionário</h1>
           <div className="row">
             <input
               type="text"
@@ -150,4 +156,4 @@ const Cadastro: React.FC = () => {
   );
 };
 
-export default Cadastro;
+export default CadastroFuncioario;

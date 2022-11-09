@@ -1,11 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hook/useAuth";
 import Layout from "../Layout";
 
 import { Container } from "./styles";
 
 const CadastroProduto: React.FC = () => {
-  const { handleCreateProduct } = useAuth();
+  const { handleCreateProduct, user } = useAuth();
+  const navigate = useNavigate();
 
   const [fileImage, setFileImage] = useState<File | null>(null);
   const [name, setName] = useState("");
@@ -65,6 +67,12 @@ const CadastroProduto: React.FC = () => {
     // free memory when ever this component is unmounted
     return () => URL.revokeObjectURL(objectUrl);
   }, [fileImage]);
+
+  React.useEffect(() => {
+    if (user?.level !== "admin" && user?.level !== "employee") {
+      navigate("/");
+    }
+  }, [navigate, user?.level]);
 
   return (
     <Layout>

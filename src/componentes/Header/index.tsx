@@ -81,8 +81,41 @@ const Header: React.FC = () => {
                       </li>
                     );
                   }
-                  if (item.name === "Criar conta") {
-                    return null;
+
+                  if (user.level === "employee") {
+                    if (item.name === "Carrinho") {
+                      return (
+                        <li>
+                          <FaShoppingCart />
+                          <Link to="/cadastro/produto">Cadastrar produto</Link>
+                        </li>
+                      );
+                    }
+                  }
+
+                  if (user.level === "admin") {
+                    if (item.name === "Criar conta") {
+                      return (
+                        <li>
+                          <AiOutlineLogin />
+                          <Link to="/cadastro/funcionario">
+                            Cadastrar funcionário
+                          </Link>
+                        </li>
+                      );
+                    }
+                    if (item.name === "Carrinho") {
+                      return (
+                        <li>
+                          <FaShoppingCart />
+                          <Link to="/cadastro/produto">Cadastrar produto</Link>
+                        </li>
+                      );
+                    }
+                  } else {
+                    if (item.name === "Criar conta") {
+                      return null;
+                    }
                   }
                 } else {
                   if (item.name === "Carrinho") {

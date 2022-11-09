@@ -7,6 +7,7 @@ import Conta from "./pages/Conta";
 import Login from "./pages/Login";
 import EsqueciASenha from "./pages/EsqueciASenha";
 import CadastroProduto from "./pages/CadastroProduto";
+import CadastroFuncionario from "./pages/CadastroFuncionario";
 import Produto from "./pages/Produto";
 
 export function AppRoutes() {
@@ -21,6 +22,7 @@ export function AppRoutes() {
         <Route path="/login" element={<Login />} />
         <Route path="/esqueci-a-senha" element={<EsqueciASenha />} />
         <Route path="/cadastro/produto" element={<CadastroProduto />} />
+        <Route path="/cadastro/funcionario" element={<CadastroFuncionario />} />
       </Routes>
     </Router>
   );

@@ -7,7 +7,7 @@ import Layout from "../Layout";
 import { Container } from "./styles";
 
 const Login: React.FC = () => {
-  const { handleLogin } = useAuth();
+  const { handleLogin, user } = useAuth();
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [message, setMessage] = React.useState("");
@@ -28,6 +28,12 @@ const Login: React.FC = () => {
       }
     }
   }
+
+  React.useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [navigate, user]);
 
   return (
     <Layout>

@@ -9,6 +9,7 @@ import {
 } from "firebase/auth";
 import { getDocs, query, where } from "firebase/firestore";
 import { createContext, ReactNode, useEffect, useState } from "react";
+
 import {
   addDoc,
   auth,
@@ -33,6 +34,7 @@ type User = {
   birth_date: Date;
   cpf: string;
   password: string;
+  level: string;
 };
 
 type AuthContextType = {
@@ -44,7 +46,8 @@ type AuthContextType = {
     adress: string,
     telefone: string,
     birth_date: Date,
-    cpf: string
+    cpf: string,
+    level: string
   ) => Promise<boolean>;
   handleResetPassword: (email: string) => Promise<boolean>;
   handleLogin: (email: string, password: string) => Promise<boolean>;
@@ -89,7 +92,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
           const u = docSnap.data() as User;
           setUser(u);
           const user = auth.currentUser;
-          console.log(user);
+          console.log(u);
         } else {
           // doc.data() will be undefined in this case
           console.log("usuário não encontrado");
@@ -109,7 +112,8 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     address: string,
     telefone: string,
     birth_date: Date,
-    cpf: string
+    cpf: string,
+    level: string
   ) {
     const createdUser = await createUserWithEmailAndPassword(
       auth,
@@ -127,16 +131,19 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
         birth_date,
         cpf,
         password,
+        level,
       };
 
-      await setDoc(doc(database, "users/", createdUser.user.uid), userdata);
-
-      setUser(userdata);
-
-      return true;
+      try {
+        await setDoc(doc(database, "users/", createdUser.user.uid), userdata);
+        setUser(userdata);
+        return true;
+      } catch (error) {
+        return false;
+      }
+    } else {
+      return false;
     }
-
-    return false;
   }
 
   async function handleLogin(email: string, password: string) {

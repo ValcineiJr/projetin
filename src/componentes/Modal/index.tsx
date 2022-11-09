@@ -13,6 +13,7 @@ const Modal = ({
   isVisible = true,
   onClickBlackPanel = () => {},
 }: ModalProps) => {
+  ModalComponente.setAppElement(".App");
   return (
     <ModalComponente
       style={{
