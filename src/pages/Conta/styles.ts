@@ -3,6 +3,43 @@ import styled from "styled-components";
 export const Container = styled.div`
   padding: 0 16px;
 
+  height: 55vh;
+
+  .row {
+    display: flex;
+    gap: 5px;
+    width: 100%;
+
+    margin-bottom: 8px;
+
+    input {
+      height: 40px;
+      width: 100%;
+
+      color: white;
+      background-color: rgb(47, 47, 80);
+
+      padding-left: 16px;
+
+      border-radius: 6px;
+
+      border: 0;
+      outline: none;
+
+      ::placeholder {
+        color: white;
+      }
+
+      :disabled {
+        background-color: dimgrey;
+        color: linen;
+        opacity: 1;
+
+        cursor: not-allowed;
+      }
+    }
+  }
+
   .messageBox,
   form {
     margin: 0 auto;
@@ -51,6 +88,11 @@ export const Container = styled.div`
       left: 16px;
     }
 
+    a.password {
+      left: 16px;
+      top: 48px;
+    }
+
     margin-top: 100px;
 
     padding: 20px;
@@ -71,41 +113,6 @@ export const Container = styled.div`
       font-weight: bold;
 
       margin: 16px 0;
-    }
-
-    .row {
-      display: flex;
-      gap: 5px;
-      width: 100%;
-
-      margin-bottom: 8px;
-
-      input {
-        height: 40px;
-        width: 100%;
-
-        color: white;
-        background-color: rgb(47, 47, 80);
-
-        padding-left: 16px;
-
-        border-radius: 6px;
-
-        border: 0;
-        outline: none;
-
-        ::placeholder {
-          color: white;
-        }
-
-        :disabled {
-          background-color: dimgrey;
-          color: linen;
-          opacity: 1;
-
-          cursor: not-allowed;
-        }
-      }
     }
 
     img {

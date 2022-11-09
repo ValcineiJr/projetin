@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 
 import { Container } from "./styles";
 
@@ -12,6 +12,7 @@ import { useAuth } from "../../hook/useAuth";
 
 const Header: React.FC = () => {
   let location = useLocation();
+  let navigate = useNavigate();
   const { user, handleSignOut } = useAuth();
   const [showMenu, setShowMenu] = React.useState(false);
 
@@ -70,6 +71,7 @@ const Header: React.FC = () => {
                         <a
                           onClick={(e) => {
                             e.preventDefault();
+                            navigate("/");
                             handleSignOut();
                           }}
                           href="#"

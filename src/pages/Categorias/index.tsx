@@ -19,7 +19,7 @@ const Categorias: React.FC = () => {
     }
 
     getData();
-  }, [location]);
+  }, [category, getProductsByCategory, location]);
 
   return (
     <Layout>

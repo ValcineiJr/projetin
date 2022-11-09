@@ -32,6 +32,7 @@ type User = {
   telefone: string;
   birth_date: Date;
   cpf: string;
+  password: string;
 };
 
 type AuthContextType = {
@@ -125,6 +126,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
         telefone,
         birth_date,
         cpf,
+        password,
       };
 
       await setDoc(doc(database, "users/", createdUser.user.uid), userdata);
@@ -138,11 +140,10 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
   }
 
   async function handleLogin(email: string, password: string) {
-    const result = await signInWithEmailAndPassword(auth, email, password);
-
-    if (result) {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
       return true;
-    } else {
+    } catch (err) {
       return false;
     }
   }
@@ -209,6 +210,13 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
 
     try {
       await updatePassword(u, password);
+      await setDoc(
+        doc(database, "users", u.uid),
+        {
+          password,
+        },
+        { merge: true }
+      );
       return true;
     } catch (err) {
       return false;
