@@ -20,6 +20,7 @@ const Conta: React.FC = () => {
 
   const [messageColor, setMessageColor] = React.useState<any>(null);
   const [message, setMessage] = React.useState<any>("");
+  const [isDisable, SetIsDisable] = React.useState(true);
   const { colors } = useTheme();
 
   React.useEffect(() => {
@@ -80,15 +81,27 @@ const Conta: React.FC = () => {
         </div>
         <form onSubmit={handleUpdateUserLocal}>
           <a href="/history">Histórico de pedidos</a>
+          <a
+            onClick={(e) => {
+              e.preventDefault();
+              SetIsDisable((state) => !state);
+            }}
+            className="update"
+            href="/history"
+          >
+            Alterar informações
+          </a>
           <h1>Minha conta</h1>
           <div className="row">
             <input
+              disabled={isDisable}
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Usuário"
             />
             <input
+              disabled={isDisable}
               type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -97,12 +110,14 @@ const Conta: React.FC = () => {
           </div>
           <div className="row">
             <input
+              disabled={isDisable}
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Senha"
             />
             <input
+              disabled={isDisable}
               type="password"
               value={confirm_password}
               onChange={(e) => setConfirm_password(e.target.value)}
@@ -111,6 +126,7 @@ const Conta: React.FC = () => {
           </div>
           <div className="row">
             <input
+              disabled={isDisable}
               type="text"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
@@ -119,6 +135,7 @@ const Conta: React.FC = () => {
           </div>
           <div className="row">
             <InputMask
+              disabled={isDisable}
               type="text"
               value={telefone}
               onChange={(e) => setTelefone(e.target.value)}
@@ -126,6 +143,7 @@ const Conta: React.FC = () => {
               mask="(99)99999-9999"
             />
             <input
+              disabled={isDisable}
               type="date"
               value={birth_date}
               onChange={(e) => setBirthDate(e.target.value)}
@@ -134,6 +152,7 @@ const Conta: React.FC = () => {
           </div>
           <div className="row">
             <InputMask
+              disabled={isDisable}
               type="text"
               value={cpf}
               onChange={(e) => setCpf(e.target.value)}
@@ -142,7 +161,9 @@ const Conta: React.FC = () => {
             />
           </div>
 
-          <button type="submit">Cadastrar</button>
+          <button disabled={isDisable} type="submit">
+            Salvar
+          </button>
         </form>
       </Container>
     </Layout>

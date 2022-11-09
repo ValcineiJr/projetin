@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation ,useParams } from "react-router-dom";
 
 import { Container } from "./styles";
 
@@ -17,16 +17,16 @@ const Header: React.FC = () => {
 
   const menu1 = [
     { icon: AiTwotoneHome, name: "Home", to: "/" },
-    { icon: FaShoppingCart, name: "Carrinho", to: "/carrinho" },
     { icon: MdEmail, name: "Contato", to: "/contato" },
 
-    { icon: GiPerson, name: "Criar conta", to: "/cadastro" },
-    { icon: AiOutlineLogin, name: "Login", to: "/login" },
     {
       icon: FaUserCircle,
       name: user ? user.name : "Minha conta",
       to: user ? "/perfil" : "/login",
     },
+    { icon: FaShoppingCart, name: "Carrinho", to: "/carrinho" },
+    { icon: GiPerson, name: "Criar conta", to: "/cadastro" },
+    { icon: AiOutlineLogin, name: "Login", to: "/login" },
   ];
 
   const categories = [
@@ -106,7 +106,7 @@ const Header: React.FC = () => {
                 return (
                   <li>
                     <item.icon />
-                    <Link to={item.to}>{item.name}</Link>
+                    <Link  to={item.to}>{item.name}</Link>
                   </li>
                 );
               })}

@@ -1,30 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation, useParams, Link } from "react-router-dom";
+import { Product } from "../../contexts/ProductContext";
+import { useProduct } from "../../hook/useProduct";
 import Layout from "../Layout";
 
 import { Container } from "./styles";
 
 const Categorias: React.FC = () => {
-  const [products, setProducts] = useState([1, 2, 3, 4]);
+  const { getProductsByCategory } = useProduct();
+  let location = useLocation();
+  let { category } = useParams();
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    async function getData() {
+      const result = await getProductsByCategory(category);
+      setProducts(result);
+    }
+
+    getData();
+  }, [location]);
 
   return (
     <Layout>
       <Container>
-        <h1>Notebooks</h1>
+        <h1>{category}</h1>
         <div className="wrapper">
           <div className="products">
             {products.map((item) => (
               <div className="product">
                 <div className="square">
-                  <img src={require("../../assets/img/banner1.jpg")} alt="" />
+                  <img src={item.product_image} alt="" />
                 </div>
 
-                <p className="title">
-                  Monitor Acer 19.5' LED, HD, HDMIVGA, VESA, Acer ComfyView -
-                  V206HQL Abi
-                </p>
+                <p className="title">{item.name}</p>
                 <div className="price">
                   <span>R$: 1.250,00</span>
-                  <a href="">Veja mais</a>
+                  <Link to={`/produto/${item.id}`}>Veja mais</Link>
                 </div>
               </div>
             ))}

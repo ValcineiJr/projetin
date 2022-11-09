@@ -7,14 +7,16 @@ import Conta from "./pages/Conta";
 import Login from "./pages/Login";
 import EsqueciASenha from "./pages/EsqueciASenha";
 import CadastroProduto from "./pages/CadastroProduto";
+import Produto from "./pages/Produto";
 
 export function AppRoutes() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/categoria/:id" element={<Categorias />} />
+        <Route path="/categoria/:category" element={<Categorias />} />
         <Route path="/cadastro" element={<Cadastro />} />
+        <Route path="/produto/:id" element={<Produto />} />
         <Route path="/perfil" element={<Conta />} />
         <Route path="/login" element={<Login />} />
         <Route path="/esqueci-a-senha" element={<EsqueciASenha />} />

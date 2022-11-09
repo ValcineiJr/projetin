@@ -47,6 +47,10 @@ export const Container = styled.div`
       top: 16px;
     }
 
+    a.update {
+      left: 16px;
+    }
+
     margin-top: 100px;
 
     padding: 20px;
@@ -93,6 +97,14 @@ export const Container = styled.div`
         ::placeholder {
           color: white;
         }
+
+        :disabled {
+          background-color: dimgrey;
+          color: linen;
+          opacity: 1;
+
+          cursor: not-allowed;
+        }
       }
     }
 
@@ -114,6 +126,14 @@ export const Container = styled.div`
       border-radius: 5px;
 
       font-family: "Poppins", sans-serif;
+
+      :disabled {
+        background-color: dimgrey;
+        color: linen;
+        opacity: 1;
+
+        cursor: not-allowed;
+      }
     }
   }
 `;

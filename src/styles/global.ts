@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
  html {
@@ -6,8 +6,8 @@ export default createGlobalStyle`
   font-size: 62.5%;
   height:100vh;
 }
-body{
-    background-image: linear-gradient(45deg, rgb(24, 19, 19) , rgb(14, 14, 185));
+.bold{
+   font-weight: bold;
 }
 html,body {
   font-family: "Poppins", sans-serif !important;

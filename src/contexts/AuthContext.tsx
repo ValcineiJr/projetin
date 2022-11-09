@@ -51,6 +51,10 @@ type AuthContextType = {
   handleCreateProduct: (
     name: string,
     file: any,
+    category: string,
+    price: string,
+    quantity: number,
+    description: string,
     setProgress?: (progress: number) => void
   ) => void;
 
@@ -83,7 +87,6 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
         if (docSnap.exists()) {
           const u = docSnap.data() as User;
           setUser(u);
-          console.log(u);
         } else {
           // doc.data() will be undefined in this case
           console.log("usuário não encontrado");
@@ -213,6 +216,10 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
   const handleCreateProduct = (
     name: string,
     file: any,
+    category: string,
+    price: string,
+    quantity: number,
+    description: string,
     setProgress?: (progress: number) => void
   ) => {
     // Create the file metadata
@@ -270,10 +277,23 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
           // console.log("File available at", downloadURL);
 
           try {
-            await addDoc(collection(database, "products"), {
+            const docRef = await addDoc(collection(database, "products"), {
               name,
               product_image: downloadURL,
+              category,
+              price,
+              quantity,
+              description,
             });
+
+            await setDoc(
+              doc(database, "products", docRef.id),
+              {
+                id: docRef.id,
+              },
+              { merge: true }
+            );
+
             return true;
           } catch (error) {
             return false;

@@ -1,4 +1,5 @@
 import { AuthContextProvider } from "./contexts/AuthContext";
+import { ProductContextProvider } from "./contexts/ProductContext";
 import { AppRoutes } from "./rotas";
 import Global from "./styles/global";
 
@@ -7,7 +8,9 @@ function App() {
     <div className="App">
       <Global />
       <AuthContextProvider>
-        <AppRoutes />
+        <ProductContextProvider>
+          <AppRoutes />
+        </ProductContextProvider>
       </AuthContextProvider>
     </div>
   );
