@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect } from "react";
-import { Link, useLocation ,useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 
 import { Container } from "./styles";
 
@@ -82,6 +82,13 @@ const Header: React.FC = () => {
                   if (item.name === "Criar conta") {
                     return null;
                   }
+                } else {
+                  if (item.name === "Carrinho") {
+                    return null;
+                  }
+                  if (item.name === "Minha conta") {
+                    return null;
+                  }
                 }
 
                 if (item.name === "Contato") {
@@ -106,7 +113,7 @@ const Header: React.FC = () => {
                 return (
                   <li>
                     <item.icon />
-                    <Link  to={item.to}>{item.name}</Link>
+                    <Link to={item.to}>{item.name}</Link>
                   </li>
                 );
               })}
