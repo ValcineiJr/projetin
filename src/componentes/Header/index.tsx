@@ -66,7 +66,7 @@ const Header: React.FC = () => {
                 if (user) {
                   if (item.name === "Login") {
                     return (
-                      <li>
+                      <li key={item.name}>
                         <AiOutlineLogout />
                         <a
                           onClick={(e) => {
@@ -159,7 +159,7 @@ const Header: React.FC = () => {
           <nav>
             <ul>
               {categories.map((item) => (
-                <li>
+                <li key={item.name}>
                   <Link to={item.to}>{item.name}</Link>
                 </li>
               ))}

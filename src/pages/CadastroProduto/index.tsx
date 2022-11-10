@@ -1,11 +1,31 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Editor from "../../componentes/Editor";
 import { useAuth } from "../../hook/useAuth";
 import Layout from "../Layout";
+import MaskedInput from "react-text-mask";
+import createNumberMask from "text-mask-addons/dist/createNumberMask";
 
 import { Container } from "./styles";
 
 const CadastroProduto: React.FC = () => {
+  const defaultMaskOptions = {
+    prefix: "R$ ",
+    suffix: "",
+    includeThousandsSeparator: true,
+    thousandsSeparatorSymbol: ".",
+    allowDecimal: true,
+    decimalSymbol: ",",
+    decimalLimit: 2, // how many digits allowed after the decimal
+    integerLimit: 5, // limit length of integer numbers
+    allowNegative: false,
+    allowLeadingZeroes: false,
+  };
+
+  const currencyMask = createNumberMask({
+    ...defaultMaskOptions,
+  });
+
   const { handleCreateProduct, user } = useAuth();
   const navigate = useNavigate();
 
@@ -20,18 +40,20 @@ const CadastroProduto: React.FC = () => {
   const createProduct = async (e: any) => {
     e.preventDefault();
 
-    if (category === "Categoria do produto") {
-      //message error
-    } else {
-      handleCreateProduct(
-        name,
-        fileImage,
-        category,
-        price,
-        quantity,
-        description
-      );
-    }
+    // if (category === "Categoria do produto") {
+    //   //message error
+    // } else {
+    //   handleCreateProduct(
+    //     name,
+    //     fileImage,
+    //     category,
+    //     price,
+    //     quantity,
+    //     description
+    //   );
+    // }
+
+    console.log(Number(price.split("R$ ")[1]));
   };
 
   function mreais(v: any) {
@@ -97,14 +119,25 @@ const CadastroProduto: React.FC = () => {
             id="cars"
           >
             {categories.map((category) => (
-              <option value={category}>{category}</option>
+              <option key={category} value={category}>
+                {category}
+              </option>
             ))}
           </select>
-          <input
-            type=""
+          {/* <input
+            type="number"
+            pattern="^\d*(\.\d{2}$)?"
             value={price}
-            onChange={(e) => mreais(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setPrice(e.target.value)
+            }
             placeholder="Preço do produto"
+          /> */}
+
+          <MaskedInput
+            mask={currencyMask}
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
           />
           <input
             type="number"
@@ -112,13 +145,14 @@ const CadastroProduto: React.FC = () => {
             onChange={(e) => setQuantity(Number(e.target.value))}
             placeholder="Quantidade"
           />
-          <textarea
+          <Editor setDescription={setDescription} readonly={false} />
+          {/* <textarea
             name=""
             id=""
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Descrição do produto"
-          ></textarea>
+          ></textarea> */}
           <button type="submit">Cadastrar</button>
         </form>
       </Container>

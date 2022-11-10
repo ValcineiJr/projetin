@@ -92,7 +92,6 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
           const u = docSnap.data() as User;
           setUser(u);
           const user = auth.currentUser;
-          console.log(u);
         } else {
           // doc.data() will be undefined in this case
           console.log("usuário não encontrado");
