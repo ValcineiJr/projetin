@@ -3,6 +3,12 @@ import styled from "styled-components";
 export const Container = styled.div`
   padding-top: 100px;
 
+  label {
+    img {
+      max-height: 400px;
+    }
+  }
+
   .messageBox,
   form {
     margin: 0 auto;
@@ -52,6 +58,10 @@ export const Container = styled.div`
 
     gap: 10px;
 
+    input[type="file"] {
+      display: none;
+    }
+
     input,
     select,
     textarea {
@@ -73,9 +83,18 @@ export const Container = styled.div`
       }
     }
 
-    textarea {
-      resize: none;
-      min-height: 300px;
+    button {
+      background-color: #1111b3;
+
+      width: 120px;
+      padding: 16px;
+
+      color: white;
+      font-size: 1.6rem;
+
+      border-radius: 5px;
+
+      font-family: "Poppins", sans-serif;
     }
   }
 `;

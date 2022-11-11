@@ -162,13 +162,22 @@ const Editor = ({
       value={initialValue}
       onChange={(e) => setDescription(e)}
     >
-      <Toolbar>
-        {markers.map((item) => (
-          <MarkButton format={item.format} Icon={item.Icon} />
-        ))}
-      </Toolbar>
+      {!readonly && (
+        <Toolbar>
+          {markers.map((item) => (
+            <MarkButton
+              key={item.format}
+              format={item.format}
+              Icon={item.Icon}
+            />
+          ))}
+        </Toolbar>
+      )}
 
       <E
+        style={{
+          backgroundColor: readonly ? "transparent" : "rgb(47, 47, 80)",
+        }}
         renderElement={renderElement}
         readOnly={readonly}
         renderLeaf={renderLeaf}

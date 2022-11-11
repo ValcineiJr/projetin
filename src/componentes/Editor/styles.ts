@@ -13,11 +13,12 @@ export const E = styled(Editable)`
   background-color: rgb(47, 47, 80);
 
   width: 100%;
-  min-height: 300px;
 
   font-size: 1.6rem;
 
-  padding: 16px;
+  min-height: 300px;
+
+  line-height: 24px;
 `;
 
 export const Button = styled.span<ButtonProps>`

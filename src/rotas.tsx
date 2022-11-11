@@ -9,6 +9,7 @@ import EsqueciASenha from "./pages/EsqueciASenha";
 import CadastroProduto from "./pages/CadastroProduto";
 import CadastroFuncionario from "./pages/CadastroFuncionario";
 import Produto from "./pages/Produto";
+import Carrinho from "./pages/Carrinho";
 
 export function AppRoutes() {
   return (
@@ -23,6 +24,7 @@ export function AppRoutes() {
         <Route path="/esqueci-a-senha" element={<EsqueciASenha />} />
         <Route path="/cadastro/produto" element={<CadastroProduto />} />
         <Route path="/cadastro/funcionario" element={<CadastroFuncionario />} />
+        <Route path="/carrinho" element={<Carrinho />} />
       </Routes>
     </Router>
   );

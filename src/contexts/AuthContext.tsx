@@ -56,11 +56,11 @@ type AuthContextType = {
     name: string,
     file: any,
     category: string,
-    price: string,
+    price: number,
     quantity: number,
-    description: string,
+    description: any[],
     setProgress?: (progress: number) => void
-  ) => void;
+  ) => boolean;
 
   handleChangeEmail: (email: string) => Promise<boolean>;
   handleChangePassword: (email: string) => Promise<boolean>;
@@ -233,9 +233,9 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     name: string,
     file: any,
     category: string,
-    price: string,
+    price: number,
     quantity: number,
-    description: string,
+    description: any[],
     setProgress?: (progress: number) => void
   ) => {
     // Create the file metadata
@@ -249,74 +249,81 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     const uploadTask = uploadBytesResumable(storageref, file, metadata);
 
     // Listen for state changes, errors, and completion of the upload.
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log("Upload is " + progress + "% done");
-        if (setProgress) {
-          setProgress(progress);
-        }
 
-        switch (snapshot.state) {
-          case "paused":
-            console.log("Upload is paused");
-            break;
-          case "running":
-            console.log("Upload is running");
-            break;
-        }
-      },
-      (error) => {
-        // A full list of error codes is available at
-        // https://firebase.google.com/docs/storage/web/handle-errors
-        switch (error.code) {
-          case "storage/unauthorized":
-            // User doesn't have permission to access the object
-            break;
-          case "storage/canceled":
-            // User canceled the upload
-            break;
-
-          // ...
-
-          case "storage/unknown":
-            // Unknown error occurred, inspect error.serverResponse
-            break;
-        }
-      },
-      () => {
-        // Upload completed successfully, now we can get the download URL
-        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-          // console.log("File available at", downloadURL);
-
-          try {
-            const docRef = await addDoc(collection(database, "products"), {
-              name,
-              product_image: downloadURL,
-              category,
-              price,
-              quantity,
-              description,
-            });
-
-            await setDoc(
-              doc(database, "products", docRef.id),
-              {
-                id: docRef.id,
-              },
-              { merge: true }
-            );
-
-            return true;
-          } catch (error) {
-            return false;
+    try {
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          if (setProgress) {
+            setProgress(progress);
           }
-        });
-      }
-    );
+
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is running");
+              break;
+          }
+        },
+        (error) => {
+          // A full list of error codes is available at
+          // https://firebase.google.com/docs/storage/web/handle-errors
+          switch (error.code) {
+            case "storage/unauthorized":
+              // User doesn't have permission to access the object
+              break;
+            case "storage/canceled":
+              // User canceled the upload
+              break;
+
+            // ...
+
+            case "storage/unknown":
+              // Unknown error occurred, inspect error.serverResponse
+              break;
+          }
+        },
+        () => {
+          // Upload completed successfully, now we can get the download URL
+          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+            // console.log("File available at", downloadURL);
+
+            try {
+              const docRef = await addDoc(collection(database, "products"), {
+                name,
+                product_image: downloadURL,
+                category,
+                price,
+                quantity,
+                description,
+              });
+
+              await setDoc(
+                doc(database, "products", docRef.id),
+                {
+                  id: docRef.id,
+                },
+                { merge: true }
+              );
+
+              return true;
+            } catch (error) {
+              return false;
+            }
+          });
+        }
+      );
+
+      return true;
+    } catch (error) {
+      return false;
+    }
   };
 
   return (

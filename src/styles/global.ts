@@ -5,6 +5,7 @@ export default createGlobalStyle`
   box-sizing: border-box;
   font-size: 62.5%;
   height:100vh;
+  scroll-behavior: smooth;
 }
 .bold{
    font-weight: bold;

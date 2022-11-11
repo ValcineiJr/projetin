@@ -7,6 +7,7 @@ import MaskedInput from "react-text-mask";
 import createNumberMask from "text-mask-addons/dist/createNumberMask";
 
 import { Container } from "./styles";
+import { useTheme } from "styled-components";
 
 const CadastroProduto: React.FC = () => {
   const defaultMaskOptions = {
@@ -28,41 +29,60 @@ const CadastroProduto: React.FC = () => {
 
   const { handleCreateProduct, user } = useAuth();
   const navigate = useNavigate();
+  const { colors } = useTheme();
 
   const [fileImage, setFileImage] = useState<File | null>(null);
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
-  const [description, setDescription] = useState("");
+  const [description, setDescription] = useState([
+    {
+      type: "paragraph",
+      children: [
+        {
+          text: "Escreva a descrição do ",
+        },
+        {
+          text: "produto",
+          bold: true,
+        },
+        {
+          text: ". ",
+        },
+      ],
+    },
+  ]);
   const [quantity, setQuantity] = useState<any>();
   const [category, setCategory] = useState("Categoria do produto");
   const [preview, setPreview] = useState<any>();
+  const [messageColor, setMessageColor] = useState<any>(null);
+  const [message, setMessage] = useState<any>("");
 
   const createProduct = async (e: any) => {
     e.preventDefault();
+    window.location.href = "#inicio";
 
-    // if (category === "Categoria do produto") {
-    //   //message error
-    // } else {
-    //   handleCreateProduct(
-    //     name,
-    //     fileImage,
-    //     category,
-    //     price,
-    //     quantity,
-    //     description
-    //   );
-    // }
+    if (category === "Categoria do produto") {
+      //message error
+    } else {
+      const priceToDB = Number(price.split("R$ ")[1].replace(".", ""));
+      const result = handleCreateProduct(
+        name,
+        fileImage,
+        category,
+        priceToDB,
+        quantity,
+        description
+      );
 
-    console.log(Number(price.split("R$ ")[1]));
+      if (result) {
+        setMessageColor(colors.success);
+        setMessage("Produto criado com sucesso");
+      } else {
+        setMessageColor(colors.error);
+        setMessage("Erro ao criar produto, tente novamente");
+      }
+    }
   };
-
-  function mreais(v: any) {
-    v = v.replace(/\D/g, ""); //Remove tudo o que não é dígito
-    v = v.replace(/(\d{2})$/, ",$1"); //Coloca a virgula
-    v = v.replace(/(\d+)(\d{3},\d{2})$/g, "$1.$2"); //Coloca o primeiro ponto
-
-    setPrice(v);
-  }
 
   const categories = [
     "Categoria do produto",
@@ -73,8 +93,8 @@ const CadastroProduto: React.FC = () => {
     "Acessórios",
     "Teclados",
     "Headsets",
-    "Moueses",
-    "Mouse pads",
+    "Mouses",
+    "Mouse Pads",
   ];
 
   React.useEffect(() => {
@@ -98,7 +118,10 @@ const CadastroProduto: React.FC = () => {
 
   return (
     <Layout>
-      <Container>
+      <Container color={messageColor} id="inicio">
+        <div className="messageBox">
+          <p>{message}</p>
+        </div>
         <form onSubmit={createProduct}>
           <h1>Cadastrar novo produto</h1>
           <input
@@ -110,9 +133,21 @@ const CadastroProduto: React.FC = () => {
 
           <input
             type="file"
+            id="file"
             onChange={(e: any) => setFileImage(e.target.files[0])}
           />
-          {fileImage && <img src={preview} />}
+          <label htmlFor="file">
+            <img
+              style={{ cursor: "pointer" }}
+              alt=""
+              src={
+                fileImage
+                  ? preview
+                  : "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png"
+              }
+            />
+          </label>
+
           <select
             onChange={(e) => setCategory(e.target.value)}
             name="cars"
@@ -124,35 +159,21 @@ const CadastroProduto: React.FC = () => {
               </option>
             ))}
           </select>
-          {/* <input
-            type="number"
-            pattern="^\d*(\.\d{2}$)?"
-            value={price}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setPrice(e.target.value)
-            }
-            placeholder="Preço do produto"
-          /> */}
 
           <MaskedInput
             mask={currencyMask}
             value={price}
+            placeholder="Digite o preço do produto"
             onChange={(e) => setPrice(e.target.value)}
           />
           <input
-            type="number"
+            type="numeric"
             value={quantity}
             onChange={(e) => setQuantity(Number(e.target.value))}
             placeholder="Quantidade"
           />
           <Editor setDescription={setDescription} readonly={false} />
-          {/* <textarea
-            name=""
-            id=""
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Descrição do produto"
-          ></textarea> */}
+
           <button type="submit">Cadastrar</button>
         </form>
       </Container>

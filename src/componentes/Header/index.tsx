@@ -9,11 +9,13 @@ import { FaShoppingCart, FaUserCircle, FaBars } from "react-icons/fa";
 import { GiPerson } from "react-icons/gi";
 import { MdEmail } from "react-icons/md";
 import { useAuth } from "../../hook/useAuth";
+import { useProduct } from "../../hook/useProduct";
 
 const Header: React.FC = () => {
   let location = useLocation();
   let navigate = useNavigate();
   const { user, handleSignOut } = useAuth();
+  const { cart } = useProduct();
   const [showMenu, setShowMenu] = React.useState(false);
 
   const menu1 = [
@@ -25,13 +27,17 @@ const Header: React.FC = () => {
       name: user ? user.name : "Minha conta",
       to: user ? "/perfil" : "/login",
     },
-    { icon: FaShoppingCart, name: "Carrinho", to: "/carrinho" },
+    {
+      icon: FaShoppingCart,
+      name: cart.length > 0 ? `Carrinho (${cart.length})` : "Carrinho",
+      to: "/carrinho",
+    },
     { icon: GiPerson, name: "Criar conta", to: "/cadastro" },
     { icon: AiOutlineLogin, name: "Login", to: "/login" },
   ];
 
   const categories = [
-    { to: "/categoria/notebooks", name: "Notebooks" },
+    { to: "/categoria/Notebooks", name: "Notebooks" },
     { to: "/categoria/Consoles", name: "Consoles" },
     { to: "/categoria/Monitores", name: "Monitores" },
     { to: "/categoria/Cadeiras", name: "Cadeiras" },
@@ -39,7 +45,7 @@ const Header: React.FC = () => {
     { to: "/categoria/Teclados", name: "Teclados" },
     { to: "/categoria/Headsets", name: "Headsets" },
     { to: "/categoria/Mouses", name: "Mouses" },
-    { to: "/categoria/MousePads", name: "Mouse Pads" },
+    { to: "/categoria/Mouse Pads", name: "Mouse Pads" },
   ];
 
   function toggleMenu() {
@@ -83,7 +89,7 @@ const Header: React.FC = () => {
                   }
 
                   if (user.level === "employee") {
-                    if (item.name === "Carrinho") {
+                    if (item.to === "/carrinho") {
                       return (
                         <li>
                           <FaShoppingCart />
@@ -104,7 +110,7 @@ const Header: React.FC = () => {
                         </li>
                       );
                     }
-                    if (item.name === "Carrinho") {
+                    if (item.to === "/carrinho") {
                       return (
                         <li>
                           <FaShoppingCart />
@@ -118,7 +124,7 @@ const Header: React.FC = () => {
                     }
                   }
                 } else {
-                  if (item.name === "Carrinho") {
+                  if (item.to === "/carrinho") {
                     return null;
                   }
                   if (item.name === "Minha conta") {
