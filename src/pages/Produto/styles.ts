@@ -11,6 +11,10 @@ export const Container = styled.div`
 
   background-color: rgba(7, 7, 7, 0.8);
 
+  border-radius: 8px;
+
+  margin-top: 100px;
+
   padding: 55px;
 
   color: white;
@@ -32,15 +36,18 @@ export const Container = styled.div`
     font-size: 1.6rem;
 
     width: 100%;
-    height: 360px;
+    height: 400px;
+
+    /* background-color: red; */
 
     img {
-      width: 40%;
+      width: 400px;
+      height: 400px;
     }
 
     margin-bottom: 30px;
 
-    justify-content: space-between;
+    gap: 80px;
   }
 
   .info {
@@ -49,18 +56,26 @@ export const Container = styled.div`
     justify-content: space-between;
     align-items: flex-end;
 
-    width: 40%;
+    flex: 1;
 
     .separator {
-      height: 360px;
+      height: 350px;
+
+      /* background-color: green; */
 
       display: flex;
       flex-direction: column;
 
       .min-desc {
-        flex: 1;
+        height: 260px;
 
         overflow-y: hidden;
+
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+
+        /* background-color: orange; */
       }
     }
   }
@@ -70,8 +85,6 @@ export const Container = styled.div`
     gap: 20px;
 
     align-items: center;
-
-    margin: 30px 0;
 
     p {
       font-size: 2.3rem;

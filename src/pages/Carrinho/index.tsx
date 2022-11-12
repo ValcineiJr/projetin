@@ -3,10 +3,11 @@ import { Link } from "react-router-dom";
 import { useProduct } from "../../hook/useProduct";
 import { formatter } from "../../utils/CurrencyFormatter";
 import Layout from "../Layout";
-import { IoChevronBackOutline, IoChevronForward } from "react-icons/io5";
+
 import { HiChevronRight, HiChevronLeft } from "react-icons/hi";
 
 import { Container } from "./styles";
+import { calculate_shipping } from "../../utils/calculateFrete";
 
 const Carrinho: React.FC = () => {
   const {
@@ -15,14 +16,12 @@ const Carrinho: React.FC = () => {
     decreaseItemCartQuantity,
     removeItemFromCart,
     totalCartValue,
-    setTotalCartValue,
+    frete,
   } = useProduct();
 
   function percentage(percent: number, total: number) {
     return (percent / 100) * total;
   }
-
-  const url = `http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx?&CepOrigem=21765430&CepDestino=21765450&nVlPeso=10&nCdFormato=1&nCdServico=04510&nVlComprimento=20&nVlAltura=20&nVlLargura=1nCdEmpresa=&sDsSenha=&sCdAvisoRecebimento=n&sCdMaoPropria=n&nVlValorDeclarado=0&nVlDiametro=0&StrRetorno=xml&nIndicaCalculo=3&nCdFormato=1&`;
 
   return (
     <Layout>
@@ -31,14 +30,9 @@ const Carrinho: React.FC = () => {
           <section>
             <div className="header">
               <h1
-                onClick={async () => {
-                  const result = await fetch(url, {
-                    headers: {
-                      "Content-Type": "application/json",
-                      Accept: "application/json",
-                    },
-                  });
-                  console.log(result.json());
+                onClick={() => {
+                  const t = calculate_shipping(32, 2);
+                  console.log(t);
                 }}
               >
                 Carrinho de compras
@@ -46,40 +40,42 @@ const Carrinho: React.FC = () => {
 
               <p className="preci-text">Preço</p>
             </div>
-            {cart?.map((item) => (
-              <div className="item">
-                <div className="separator">
-                  <div className="img-product">
-                    <img src={item.product_image} alt="product" />
-                  </div>
-                  <div className="info">
-                    <p className="name-product">{item.name}</p>
-                    <div className="options">
-                      <label htmlFor="">Qtd: </label>
-                      <button onClick={() => decreaseItemCartQuantity(item)}>
-                        <HiChevronLeft className="icon" />
-                      </button>
-                      <input
-                        type="numeric"
-                        readOnly
-                        value={item.quantity}
-                        placeholder="1"
-                      />
-                      <button onClick={() => increaseItemCartQuantity(item)}>
-                        <HiChevronRight className="icon" />
-                      </button>
-                      <button onClick={() => removeItemFromCart(item)}>
-                        Excluir
-                      </button>
+            {cart?.map((item) => {
+              return (
+                <div className="item">
+                  <div className="separator">
+                    <div className="img-product">
+                      <img src={item.product_image} alt="product" />
+                    </div>
+                    <div className="info">
+                      <p className="name-product">{item.name}</p>
+                      <div className="options">
+                        <label htmlFor="">Qtd: </label>
+                        <button onClick={() => decreaseItemCartQuantity(item)}>
+                          <HiChevronLeft className="icon" />
+                        </button>
+                        <input
+                          type="numeric"
+                          readOnly
+                          value={item.quantity}
+                          placeholder="1"
+                        />
+                        <button onClick={() => increaseItemCartQuantity(item)}>
+                          <HiChevronRight className="icon" />
+                        </button>
+                        <button onClick={() => removeItemFromCart(item)}>
+                          Excluir
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <p className="price">
-                  {formatter.format(item.price * item.quantity)}
-                </p>
-              </div>
-            ))}
+                  <p className="price">
+                    {formatter.format(item.price * item.quantity)}
+                  </p>
+                </div>
+              );
+            })}
           </section>
           <aside>
             <div className="resumo">
@@ -90,13 +86,19 @@ const Carrinho: React.FC = () => {
               </div>
               <div className="row">
                 <span className="light">Frete:</span>
-                <span className="bold">R$ 0,00</span>
+                <span className="bold">{formatter.format(frete)}</span>
               </div>
               <div className="row">
+                <span className="light">Total à prazo:</span>
+                <span className="bold">
+                  {formatter.format(frete + totalCartValue)}
+                </span>
+              </div>
+              {/* <div className="row">
                 <span style={{ textAlign: "center" }} className="light">
                   (em até 10x de R$ 144,44 sem juros)
                 </span>
-              </div>
+              </div> */}
               <div className="pix">
                 <span style={{ fontSize: "1.2rem" }} className="light">
                   Valor a vista no <span className="bold">Pix</span>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import Editor from "../../componentes/Editor";
 import { useProduct } from "../../hook/useProduct";
@@ -15,6 +15,8 @@ const Produto: React.FC = () => {
     setCartToStorage(product);
   }
 
+  // console.log(product?.description.slice(0, 5));
+
   return (
     <Layout>
       <Container>
@@ -25,7 +27,7 @@ const Produto: React.FC = () => {
             <div className="separator">
               <p className="bold">Descrição</p>
               <div className="min-desc">
-                <Editor initialValue={product?.description} />
+                <Editor initialValue={product?.description?.slice(0, 3)} />
               </div>
             </div>
 

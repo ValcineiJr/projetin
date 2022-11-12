@@ -10,23 +10,6 @@ import { Container } from "./styles";
 import { useTheme } from "styled-components";
 
 const CadastroProduto: React.FC = () => {
-  const defaultMaskOptions = {
-    prefix: "R$ ",
-    suffix: "",
-    includeThousandsSeparator: true,
-    thousandsSeparatorSymbol: ".",
-    allowDecimal: true,
-    decimalSymbol: ",",
-    decimalLimit: 2, // how many digits allowed after the decimal
-    integerLimit: 5, // limit length of integer numbers
-    allowNegative: false,
-    allowLeadingZeroes: false,
-  };
-
-  const currencyMask = createNumberMask({
-    ...defaultMaskOptions,
-  });
-
   const { handleCreateProduct, user } = useAuth();
   const navigate = useNavigate();
   const { colors } = useTheme();
@@ -57,6 +40,38 @@ const CadastroProduto: React.FC = () => {
   const [messageColor, setMessageColor] = useState<any>(null);
   const [message, setMessage] = useState<any>("");
 
+  const decimalMaskOpt = ({
+    thousandsSeparatorSymbol = ".",
+    decimalSymbol = ",",
+    decimalPlaces = 2,
+  } = {}) => {
+    return (input: any) => {
+      var digits = (input.match(/\d/gi) || []).length;
+
+      if (digits <= decimalPlaces) return Array(decimalPlaces).fill(/\d/);
+
+      if (digits === decimalPlaces + 1) {
+        return [/\d/, /\d/, decimalSymbol, ...Array(decimalPlaces).fill(/\d/)];
+      }
+
+      var mask = [];
+      for (var i = digits - 1; i >= 0; i--) {
+        mask.push(/\d/);
+
+        if (i === digits - decimalPlaces) {
+          mask.push(decimalSymbol);
+        }
+
+        const r = digits - i;
+        if (r >= decimalPlaces + 2 && (r - decimalPlaces) % 3 === 0 && i > 0) {
+          mask.push(thousandsSeparatorSymbol);
+        }
+      }
+
+      return mask.reverse();
+    };
+  };
+
   const createProduct = async (e: any) => {
     e.preventDefault();
     window.location.href = "#inicio";
@@ -64,7 +79,9 @@ const CadastroProduto: React.FC = () => {
     if (category === "Categoria do produto") {
       //message error
     } else {
-      const priceToDB = Number(price.split("R$ ")[1].replace(".", ""));
+      const pp = price.replace(".", "");
+      const priceToDB = Number(pp.replace(",", "."));
+
       const result = handleCreateProduct(
         name,
         fileImage,
@@ -161,7 +178,9 @@ const CadastroProduto: React.FC = () => {
           </select>
 
           <MaskedInput
-            mask={currencyMask}
+            maxLength={9}
+            mask={decimalMaskOpt({ decimalPlaces: 2 })}
+            guide={false}
             value={price}
             placeholder="Digite o preço do produto"
             onChange={(e) => setPrice(e.target.value)}

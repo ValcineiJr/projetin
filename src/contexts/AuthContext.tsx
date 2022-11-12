@@ -302,6 +302,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
                 price,
                 quantity,
                 description,
+                weight: Math.floor(Math.random() * 32),
               });
 
               await setDoc(

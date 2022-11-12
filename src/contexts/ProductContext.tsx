@@ -2,6 +2,7 @@ import { createContext, ReactNode, useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { database } from "../services/firebase";
 import { useAuth } from "../hook/useAuth";
+import { calculate_shipping } from "../utils/calculateFrete";
 
 export type Product = {
   name: string;
@@ -11,12 +12,14 @@ export type Product = {
   quantity: number;
   description: any[];
   id: string;
+  weight: number;
 };
 
 type ProductContextType = {
   getProductsByCategory: (category: string | undefined) => Promise<Product[]>;
   product: Product;
   totalCartValue: number;
+  frete: number;
   setProduct: React.Dispatch<React.SetStateAction<Product>>;
   cart: Product[];
   setCartToStorage: (product: Product) => void;
@@ -36,24 +39,27 @@ export function ProductContextProvider(props: ProductContextProviderProps) {
   const { user } = useAuth();
   const [product, setProduct] = useState<Product>({} as Product);
   const [totalCartValue, setTotalCartValue] = useState(0);
+  const [frete, setFrete] = useState(0);
 
   const [cart, setCart] = useState<Product[]>([]);
   const [change, setChange] = useState(false);
   const cartStorageKey = `cart-${user?.id}`;
+  const freteStorageKey = `frete-${user?.id}`;
 
   useEffect(() => {
     const cartStorage = localStorage.getItem(cartStorageKey);
+    const freteStorage = localStorage.getItem(freteStorageKey);
 
     if (cartStorage) {
-      const c: Product[] = JSON.parse(
-        localStorage.getItem(cartStorageKey) ?? "[]"
-      );
+      const c: Product[] = JSON.parse(cartStorage ?? "[]");
       let total = 0;
       c.map((item) => (total += item.price * item.quantity));
       setCart(c);
+      const f = JSON.parse(freteStorage ?? "0");
+      setFrete(f);
       setTotalCartValue(total);
     }
-  }, [cartStorageKey, user]);
+  }, [cartStorageKey, freteStorageKey, user]);
 
   useEffect(() => {
     let total = 0;
@@ -68,7 +74,7 @@ export function ProductContextProvider(props: ProductContextProviderProps) {
 
     if (containID !== -1) {
       let cartCopy = cart;
-      // setTotalCartValue((state) => (state -= item.price * item.quantity));
+
       cartCopy.splice(containID, 1);
 
       setCart(cartCopy);
@@ -88,7 +94,6 @@ export function ProductContextProvider(props: ProductContextProviderProps) {
       }
       setCart(cartCopy);
       setChange((state) => !state);
-      // setTotalCartValue((state) => (state -= product.price * product.quantity));
     }
   }
   function increaseItemCartQuantity(product: Product) {
@@ -111,14 +116,15 @@ export function ProductContextProvider(props: ProductContextProviderProps) {
       cartCopy[containID].quantity++;
 
       setCart(cartCopy);
-      // setTotalCartValue(
-      //   (state) =>
-      //     (state += cartCopy[containID].price * cartCopy[containID].quantity)
-      // );
     } else {
       product.quantity = 1;
       setCart((state) => {
-        // setTotalCartValue((state) => (state += product.price));
+        const { cost } = calculate_shipping(
+          Math.floor(Math.random() * 32) + 5,
+          Math.floor(Math.random() * 5)
+        );
+        localStorage.setItem(freteStorageKey, JSON.stringify(Number(cost)));
+        setFrete(Number(cost));
         return [...state, product];
       });
     }
@@ -155,6 +161,7 @@ export function ProductContextProvider(props: ProductContextProviderProps) {
         removeItemFromCart,
         totalCartValue,
         setTotalCartValue,
+        frete,
       }}
     >
       {props.children}
