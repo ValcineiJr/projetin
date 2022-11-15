@@ -39,7 +39,7 @@ const Categorias: React.FC = () => {
         <div className="wrapper">
           <div className="products">
             {products.map((item) => (
-              <div className="product">
+              <div key={item.id} className="product">
                 <div className="square">
                   <img src={item.product_image} alt="" />
                 </div>

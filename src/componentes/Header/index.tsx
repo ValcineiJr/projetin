@@ -68,11 +68,11 @@ const Header: React.FC = () => {
           <div className="logo">ScreedGames</div>
           <nav>
             <ul>
-              {menu1.map((item) => {
+              {menu1.map((item, index) => {
                 if (user) {
                   if (item.name === "Login") {
                     return (
-                      <li key={item.name}>
+                      <li key={String(index)}>
                         <AiOutlineLogout />
                         <a
                           onClick={(e) => {

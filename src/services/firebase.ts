@@ -25,12 +25,13 @@ import {
 } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB2A_eaXghuX0J7lkSS7UMTDZVK8G_v2aQ",
-  authDomain: "diplomado-30e12.firebaseapp.com",
-  projectId: "diplomado-30e12",
-  storageBucket: "diplomado-30e12.appspot.com",
-  messagingSenderId: "283646397328",
-  appId: "1:283646397328:web:3d9e34b7f3019c48490115",
+  apiKey: "AIzaSyA3CgwaZLsztCweuREATncbg8YPMHH0lcQ",
+  authDomain: "loja2-4879f.firebaseapp.com",
+  projectId: "loja2-4879f",
+  storageBucket: "loja2-4879f.appspot.com",
+  messagingSenderId: "461392481298",
+  appId: "1:461392481298:web:fe7556dd71a5e78d1fdccb",
+  measurementId: "G-DW816BMT9M",
 };
 
 const firebaseApp = initializeApp(firebaseConfig);

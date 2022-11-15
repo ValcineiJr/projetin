@@ -4,6 +4,7 @@ import {
   deleteDoc,
   deleteField,
   doc,
+  getDoc,
   getDocs,
   updateDoc,
 } from "firebase/firestore";
@@ -34,6 +35,7 @@ type ProductContextType = {
   increaseItemCartQuantity: (product: Product) => void;
   deleteItem: (id: string) => void;
   removeItemFromCart: (product: Product) => void;
+  getProduct: (id: string) => Promise<Product>;
   setTotalCartValue: React.Dispatch<React.SetStateAction<number>>;
 };
 
@@ -168,6 +170,18 @@ export function ProductContextProvider(props: ProductContextProviderProps) {
     }
   }
 
+  async function getProduct(id: string) {
+    const docRef = doc(database, "products", id);
+    const docSnap = await getDoc(docRef);
+    let data: any = docSnap.data();
+
+    if (docSnap.exists()) {
+      return data;
+    } else {
+      console.log("No such document!");
+    }
+  }
+
   return (
     <ProductContext.Provider
       value={{
@@ -183,6 +197,7 @@ export function ProductContextProvider(props: ProductContextProviderProps) {
         setTotalCartValue,
         frete,
         deleteItem,
+        getProduct,
       }}
     >
       {props.children}

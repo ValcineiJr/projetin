@@ -11,10 +11,23 @@ const Estoque: React.FC = () => {
   const { getProductsByCategory, deleteItem } = useProduct();
   const [category, setCategory] = useState("Notebooks");
   const [products, setProducts] = useState<Product[]>();
+  const [originalProducts, setOriginalProducts] = useState<Product[]>();
+  const [change, setChange] = useState(false);
   const { colors } = useTheme();
 
+  const getData = () => {
+    getProductsByCategory(category).then((response) => {
+      setOriginalProducts(response);
+      setProducts(response);
+    });
+  };
+
   useEffect(() => {
-    getProductsByCategory(category).then((response) => setProducts(response));
+    getData();
+  }, []);
+
+  useEffect(() => {
+    setProducts(originalProducts?.filter((item) => item.category === category));
   }, [category]);
 
   const categories = [
@@ -33,8 +46,10 @@ const Estoque: React.FC = () => {
       <Container>
         <table>
           <tr>
-            <th className="title">Todos os produtos</th>
-            <th>
+            <th style={{ borderTopLeftRadius: 10 }} className="title">
+              Todos os produtos
+            </th>
+            <th style={{ borderTopRightRadius: 10 }}>
               <select onChange={(e) => setCategory(e.target.value)}>
                 {categories.map((item) => (
                   <option value={item}>{item}</option>
@@ -43,18 +58,34 @@ const Estoque: React.FC = () => {
             </th>
           </tr>
           <tr>
-            <th className="bold"></th>
+            <th className="bold">Ações:</th>
             <th className="bold">Nome:</th>
             <th className="bold">Quantidade:</th>
             <th className="bold">Preço:</th>
           </tr>
           <tbody>
-            {products?.map((item) => (
-              <tr>
+            {products?.map((item, index) => (
+              <tr
+                style={{
+                  backgroundColor: index % 2 === 0 ? "white" : "#eee",
+                  borderBottom:
+                    index === products.length - 1
+                      ? `5px solid ${colors.success}`
+                      : "none",
+                }}
+              >
                 <td>
-                  <button>Editar</button>
+                  <a href={`/editar/produto/${item.id}`} className="button">
+                    Editar
+                  </a>
                   <button
-                    onClick={() => deleteItem(item.id)}
+                    onClick={() => {
+                      deleteItem(item.id);
+                      setProducts(products.filter((r) => r.name !== item.name));
+                      setOriginalProducts(
+                        products.filter((r) => r.name !== item.name)
+                      );
+                    }}
                     style={{ backgroundColor: colors.error }}
                   >
                     Excluir

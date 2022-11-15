@@ -2,12 +2,11 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   padding-top: 100px;
+  min-height: 60vh;
   table {
     width: 100%;
     max-width: 1000px;
     margin: 0 auto;
-
-    background-color: #fff;
 
     border: 0;
 
@@ -22,6 +21,12 @@ export const Container = styled.div`
       display: flex;
     }
 
+    th {
+      background-color: ${({ theme }) => theme.colors.success};
+      color: white;
+      /* border-radius: 5px; */
+    }
+
     th.bold {
       font-weight: bold;
       font-size: 1.4rem;
@@ -29,6 +34,9 @@ export const Container = styled.div`
 
     td {
       gap: 20px;
+      border: 1px solid rgb(222, 224, 228);
+
+      font-size: 1.4rem;
     }
 
     th,
@@ -40,12 +48,11 @@ export const Container = styled.div`
       justify-content: center;
       align-items: center;
       text-align: center;
-
-      border: 1px solid #000;
     }
 
     tbody {
-      button {
+      button,
+      a.button {
         background-color: #1111b3;
 
         padding: 5px 16px;
@@ -67,7 +74,10 @@ export const Container = styled.div`
 
       text-align: center;
 
-      background-color: #eee;
+      background-color: rgb(222, 224, 228);
+      border-top-right-radius: 10px;
+
+      color: #1b1b1b;
     }
   }
 `;

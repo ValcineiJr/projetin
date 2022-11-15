@@ -74,7 +74,7 @@ const Home: React.FC = () => {
         <div className="wrapper">
           <section>
             {sectionItem.map((item) => (
-              <div className="section-item">
+              <div key={item.name} className="section-item">
                 <img
                   src={require("../../assets/img/produtos/cadeira.jpg")}
                   alt=""
