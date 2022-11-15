@@ -19,8 +19,6 @@ export const E = styled(Editable)`
   min-height: 300px;
 
   line-height: 24px;
-
-  text-overflow: ellipsis;
 `;
 
 export const Button = styled.span<ButtonProps>`

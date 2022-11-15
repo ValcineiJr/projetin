@@ -72,6 +72,8 @@ export const Container = styled.div`
     a {
       position: absolute;
 
+      width: 150px;
+
       cursor: pointer;
 
       font-size: 1.4rem;

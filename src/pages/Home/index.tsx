@@ -1,7 +1,7 @@
 import React from "react";
 import Layout from "../Layout";
 
-import { Navigation, Pagination } from "swiper";
+import { Navigation, Pagination, Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
@@ -45,7 +45,8 @@ const Home: React.FC = () => {
             loop={true}
             navigation={true}
             pagination={true}
-            modules={[Navigation, Pagination]}
+            autoplay
+            modules={[Navigation, Pagination, Autoplay]}
             className="mySwiper"
           >
             <SwiperSlide>

@@ -159,7 +159,14 @@ const Conta: React.FC = () => {
           </div>
         </Modal>
         <form onSubmit={handleUpdateUserLocal}>
-          <a href="/history">Histórico de pedidos</a>
+          {user?.level === "user" ? (
+            <a href="/history">Histórico de pedidos</a>
+          ) : (
+            <a style={{ textAlign: "right" }} href="/estoque">
+              Estoque
+            </a>
+          )}
+
           <a
             onClick={(e) => {
               e.preventDefault();

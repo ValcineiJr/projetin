@@ -30,14 +30,7 @@ const Editor = ({
       type: "paragraph",
       children: [
         {
-          text: "Escreva a descrição do ",
-        },
-        {
-          text: "produto",
-          bold: true,
-        },
-        {
-          text: ". ",
+          text: "",
         },
       ],
     },

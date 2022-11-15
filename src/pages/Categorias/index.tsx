@@ -22,6 +22,16 @@ const Categorias: React.FC = () => {
     getData();
   }, [category, getProductsByCategory, location]);
 
+  if (products.length == 0) {
+    return (
+      <Layout>
+        <Container>
+          <h1>Carregando...</h1>
+        </Container>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
       <Container>

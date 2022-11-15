@@ -1,5 +1,12 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  deleteField,
+  doc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
 import { database } from "../services/firebase";
 import { useAuth } from "../hook/useAuth";
 import { calculate_shipping } from "../utils/calculateFrete";
@@ -25,6 +32,7 @@ type ProductContextType = {
   setCartToStorage: (product: Product) => void;
   decreaseItemCartQuantity: (product: Product) => void;
   increaseItemCartQuantity: (product: Product) => void;
+  deleteItem: (id: string) => void;
   removeItemFromCart: (product: Product) => void;
   setTotalCartValue: React.Dispatch<React.SetStateAction<number>>;
 };
@@ -148,6 +156,18 @@ export function ProductContextProvider(props: ProductContextProviderProps) {
 
     return productsFilter;
   }
+
+  async function deleteItem(id: string) {
+    const Ref = doc(database, "products", id);
+
+    try {
+      await deleteDoc(Ref);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
   return (
     <ProductContext.Provider
       value={{
@@ -162,6 +182,7 @@ export function ProductContextProvider(props: ProductContextProviderProps) {
         totalCartValue,
         setTotalCartValue,
         frete,
+        deleteItem,
       }}
     >
       {props.children}

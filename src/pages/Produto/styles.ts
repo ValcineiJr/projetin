@@ -1,23 +1,52 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  margin: 0 auto;
+  padding-top: 80px;
 
-  width: 100%;
-  max-width: 1000px;
+  .messageBox {
+    margin: auto;
 
-  display: flex;
-  flex-direction: column;
+    width: 100%;
+    max-width: 1000px;
+  }
 
-  background-color: rgba(7, 7, 7, 0.8);
+  .messageBox {
+    display: ${({ color }) => (color !== null ? "flex" : "none")};
+    background-color: ${({ color }) => color};
 
-  border-radius: 8px;
+    transition: all 1s;
 
-  margin-top: 100px;
+    border-radius: 5px;
 
-  padding: 55px;
+    height: 40px;
 
-  color: white;
+    color: white;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 1.6rem;
+
+    margin-bottom: 20px;
+  }
+
+  .wrapper {
+    margin: 0 auto;
+
+    width: 100%;
+    max-width: 1000px;
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: rgba(7, 7, 7, 0.8);
+
+    border-radius: 8px;
+
+    padding: 55px;
+
+    color: white;
+  }
 
   h1 {
     font-size: 2.3rem;
@@ -56,10 +85,13 @@ export const Container = styled.div`
     justify-content: space-between;
     align-items: flex-end;
 
+    /* background-color: red; */
+
     flex: 1;
 
     .separator {
       height: 350px;
+      width: 100%;
 
       /* background-color: green; */
 
@@ -67,15 +99,13 @@ export const Container = styled.div`
       flex-direction: column;
 
       .min-desc {
-        height: 260px;
+        height: 290px;
 
         overflow-y: hidden;
 
-        display: -webkit-box;
-        -webkit-line-clamp: 4;
-        -webkit-box-orient: vertical;
-
         /* background-color: orange; */
+
+        flex: 1;
       }
     }
   }
@@ -92,7 +122,7 @@ export const Container = styled.div`
   }
 
   .bigger-desc {
-    margin-top: 60px;
+    margin-top: 10px;
     padding-top: 30px;
 
     border-top: 1px solid white;
