@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   padding-top: 100px;
+  min-height: 60vh;
 
   label {
     img {

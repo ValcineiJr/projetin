@@ -10,6 +10,7 @@ import Modal from "../../componentes/Modal";
 
 import { AiFillCloseCircle } from "react-icons/ai";
 import Input from "../../componentes/Input";
+import { Link } from "react-router-dom";
 
 const Conta: React.FC = () => {
   const { user, handleChangeEmail, handleChangePassword, handleUpdateUser } =
@@ -162,9 +163,9 @@ const Conta: React.FC = () => {
           {user?.level === "user" ? (
             <a href="/history">Histórico de pedidos</a>
           ) : (
-            <a style={{ textAlign: "right" }} href="/estoque">
+            <Link style={{ textAlign: "right" }} to="/estoque">
               Estoque
-            </a>
+            </Link>
           )}
 
           <a

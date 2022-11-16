@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useTheme } from "styled-components";
 import { Product } from "../../contexts/ProductContext";
 import { useProduct } from "../../hook/useProduct";
@@ -8,7 +9,7 @@ import Layout from "../Layout";
 import { Container } from "./styles";
 
 const Estoque: React.FC = () => {
-  const { getProductsByCategory, deleteItem } = useProduct();
+  const { deleteItem, getAllProducts } = useProduct();
   const [category, setCategory] = useState("Notebooks");
   const [products, setProducts] = useState<Product[]>();
   const [originalProducts, setOriginalProducts] = useState<Product[]>();
@@ -16,7 +17,7 @@ const Estoque: React.FC = () => {
   const { colors } = useTheme();
 
   const getData = () => {
-    getProductsByCategory(category).then((response) => {
+    getAllProducts().then((response) => {
       setOriginalProducts(response);
       setProducts(response);
     });
@@ -28,7 +29,7 @@ const Estoque: React.FC = () => {
 
   useEffect(() => {
     setProducts(originalProducts?.filter((item) => item.category === category));
-  }, [category]);
+  }, [category, originalProducts]);
 
   const categories = [
     "Notebooks",
@@ -45,27 +46,31 @@ const Estoque: React.FC = () => {
     <Layout>
       <Container>
         <table>
-          <tr>
-            <th style={{ borderTopLeftRadius: 10 }} className="title">
-              Todos os produtos
-            </th>
-            <th style={{ borderTopRightRadius: 10 }}>
-              <select onChange={(e) => setCategory(e.target.value)}>
-                {categories.map((item) => (
-                  <option value={item}>{item}</option>
-                ))}
-              </select>
-            </th>
-          </tr>
-          <tr>
-            <th className="bold">Ações:</th>
-            <th className="bold">Nome:</th>
-            <th className="bold">Quantidade:</th>
-            <th className="bold">Preço:</th>
-          </tr>
+          <thead>
+            <tr>
+              <th style={{ borderTopLeftRadius: 10 }} className="title">
+                Todos os produtos
+              </th>
+              <th style={{ borderTopRightRadius: 10 }}>
+                <select onChange={(e) => setCategory(e.target.value)}>
+                  {categories.map((item) => (
+                    <option value={item}>{item}</option>
+                  ))}
+                </select>
+              </th>
+            </tr>
+            <tr>
+              <th className="bold">Ações:</th>
+              <th className="bold">Nome:</th>
+              <th className="bold">Quantidade:</th>
+              <th className="bold">Preço:</th>
+            </tr>
+          </thead>
+
           <tbody>
             {products?.map((item, index) => (
               <tr
+                key={item.id}
                 style={{
                   backgroundColor: index % 2 === 0 ? "white" : "#eee",
                   borderBottom:
@@ -75,9 +80,9 @@ const Estoque: React.FC = () => {
                 }}
               >
                 <td>
-                  <a href={`/editar/produto/${item.id}`} className="button">
+                  <Link to={`/editar/produto/${item.id}`} className="button">
                     Editar
-                  </a>
+                  </Link>
                   <button
                     onClick={() => {
                       deleteItem(item.id);

@@ -12,12 +12,11 @@ import { Container } from "./styles";
 
 const EditarProduto: React.FC = () => {
   const { handleCreateProduct, user } = useAuth();
-  const navigate = useNavigate();
+
   let { id } = useParams();
   const { colors } = useTheme();
-  const { getProduct } = useProduct();
+  const { getProduct, updateProduct } = useProduct();
 
-  const [fileImage, setFileImage] = useState<File | null>(null);
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState([
@@ -39,10 +38,11 @@ const EditarProduto: React.FC = () => {
   ]);
   const [quantity, setQuantity] = useState<any>();
   const [category, setCategory] = useState("Categoria do produto");
-  const [preview, setPreview] = useState<any>();
+
   const [messageColor, setMessageColor] = useState<any>(null);
   const [message, setMessage] = useState<any>("");
   const [product, setProduct] = useState<Product>();
+  const [change, setChange] = useState(false);
 
   const categories = [
     "Categoria do produto",
@@ -89,8 +89,6 @@ const EditarProduto: React.FC = () => {
     };
   };
 
-  function editProduct() {}
-
   useEffect(() => {
     if (id) {
       getProduct(id).then((response) => setProduct(response));
@@ -101,10 +99,44 @@ const EditarProduto: React.FC = () => {
     if (product) {
       setName(product.name);
       setPrice(String(product.price));
-      setPreview(product.product_image);
+      setQuantity(product.quantity);
       setCategory(product.category);
+      setDescription(product.description);
     }
   }, [product]);
+
+  useEffect(() => {
+    if (description.length > 1) {
+      setChange(true);
+    }
+  }, [description]);
+
+  async function handleUpdateProduct(e: any) {
+    e.preventDefault();
+    window.location.href = "#inicio";
+
+    if (id) {
+      const pp = price.replace(".", "");
+      const priceToDB = Number(pp.replace(",", "."));
+
+      const result = await updateProduct(
+        id,
+        name,
+        category,
+        priceToDB,
+        quantity,
+        description
+      );
+
+      if (result) {
+        setMessageColor(colors.success);
+        setMessage("Produto alterado com sucesso.");
+      } else {
+        setMessageColor(colors.error);
+        setMessage("Erro ao alterar o produto.");
+      }
+    }
+  }
 
   return (
     <Layout>
@@ -112,31 +144,14 @@ const EditarProduto: React.FC = () => {
         <div className="messageBox">
           <p>{message}</p>
         </div>
-        <form onSubmit={editProduct}>
-          <h1>Cadastrar novo produto</h1>
+        <form onSubmit={handleUpdateProduct}>
+          <h1>Edição de produto</h1>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Nome do produto"
           />
-
-          <input
-            type="file"
-            id="file"
-            onChange={(e: any) => setFileImage(e.target.files[0])}
-          />
-          <label htmlFor="file">
-            <img
-              style={{ cursor: "pointer" }}
-              alt=""
-              src={
-                fileImage
-                  ? preview
-                  : "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png"
-              }
-            />
-          </label>
 
           <select
             onChange={(e) => setCategory(e.target.value)}
@@ -165,9 +180,15 @@ const EditarProduto: React.FC = () => {
             onChange={(e) => setQuantity(Number(e.target.value))}
             placeholder="Quantidade"
           />
-          <Editor setDescription={setDescription} readonly={false} />
+          {change && (
+            <Editor
+              initialValue={description}
+              setDescription={setDescription}
+              readonly={false}
+            />
+          )}
 
-          <button type="submit">Cadastrar</button>
+          <button type="submit">Alterar</button>
         </form>
       </Container>
     </Layout>

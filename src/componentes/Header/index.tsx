@@ -164,8 +164,8 @@ const Header: React.FC = () => {
         <div className="rowTwo">
           <nav>
             <ul>
-              {categories.map((item) => (
-                <li key={item.name}>
+              {categories.map((item, index) => (
+                <li key={String(index)}>
                   <Link to={item.to}>{item.name}</Link>
                 </li>
               ))}

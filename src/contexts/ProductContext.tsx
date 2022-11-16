@@ -6,6 +6,7 @@ import {
   doc,
   getDoc,
   getDocs,
+  setDoc,
   updateDoc,
 } from "firebase/firestore";
 import { database } from "../services/firebase";
@@ -25,6 +26,7 @@ export type Product = {
 
 type ProductContextType = {
   getProductsByCategory: (category: string | undefined) => Promise<Product[]>;
+  getAllProducts: () => Promise<Product[]>;
   product: Product;
   totalCartValue: number;
   frete: number;
@@ -37,6 +39,14 @@ type ProductContextType = {
   removeItemFromCart: (product: Product) => void;
   getProduct: (id: string) => Promise<Product>;
   setTotalCartValue: React.Dispatch<React.SetStateAction<number>>;
+  updateProduct: (
+    id: string,
+    name?: string,
+    category?: string,
+    price?: number,
+    quantity?: number,
+    description?: any[]
+  ) => Promise<boolean>;
 };
 
 type ProductContextProviderProps = {
@@ -158,6 +168,23 @@ export function ProductContextProvider(props: ProductContextProviderProps) {
 
     return productsFilter;
   }
+  async function getAllProducts() {
+    const querySnapshot = await getDocs(collection(database, "products"));
+    const array: Product[] = [];
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+
+      const data: any = doc.data();
+
+      array.push(data);
+
+      //   Object.keys(data).forEach(function (key, index) {
+      //     console.log(data[key]);
+      //   });
+    });
+
+    return array;
+  }
 
   async function deleteItem(id: string) {
     const Ref = doc(database, "products", id);
@@ -182,6 +209,33 @@ export function ProductContextProvider(props: ProductContextProviderProps) {
     }
   }
 
+  async function updateProduct(
+    id: string,
+    name?: string,
+    category?: string,
+    price?: number,
+    quantity?: number,
+    description?: any[]
+  ) {
+    try {
+      await setDoc(
+        doc(database, "products", id),
+        {
+          name,
+          category,
+          price,
+          quantity,
+          description,
+        },
+        { merge: true }
+      );
+      return true;
+    } catch (err) {
+      console.log(err);
+      return false;
+    }
+  }
+
   return (
     <ProductContext.Provider
       value={{
@@ -198,6 +252,8 @@ export function ProductContextProvider(props: ProductContextProviderProps) {
         frete,
         deleteItem,
         getProduct,
+        updateProduct,
+        getAllProducts,
       }}
     >
       {props.children}
