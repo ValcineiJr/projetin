@@ -8,25 +8,33 @@ import Layout from "../Layout";
 import { Container } from "./styles";
 
 const Categorias: React.FC = () => {
-  const { getProductsByCategory, setProduct } = useProduct();
+  const { getAllProducts } = useProduct();
   let location = useLocation();
   let { category } = useParams();
-  const [products, setProducts] = useState<Product[]>([]);
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     async function getData() {
-      const result = await getProductsByCategory(category);
-      setProducts(result);
+      const result = await getAllProducts();
+      setAllProducts(result);
     }
 
     getData();
-  }, [category, getProductsByCategory, location]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  if (products.length == 0) {
+  useEffect(() => {
+    setFilteredProducts(
+      allProducts.filter((item) => item.category === category)
+    );
+  }, [category, location, allProducts]);
+
+  if (allProducts.length === 0) {
     return (
       <Layout>
         <Container>
-          <h1>Carregando...</h1>
+          g<h1>Carregando...</h1>
         </Container>
       </Layout>
     );
@@ -38,24 +46,31 @@ const Categorias: React.FC = () => {
         <h1>{category}</h1>
         <div className="wrapper">
           <div className="products">
-            {products.map((item) => (
-              <div key={item.id} className="product">
-                <div className="square">
-                  <img src={item.product_image} alt="" />
-                </div>
+            {filteredProducts.map((item) => {
+              const outStock = item.quantity === 0;
+              return (
+                <div key={item.id} className="product">
+                  <div className="square">
+                    <img src={item.product_image} alt="" />
+                    {outStock && (
+                      <img
+                        className="estoque"
+                        src={require("../../assets/img/estoque.png")}
+                        alt=""
+                      />
+                    )}
+                  </div>
 
-                <p className="title">{item.name}</p>
-                <div className="price">
-                  <span>{formatter.format(item.price)}</span>
-                  <Link
-                    onClick={() => setProduct(item)}
-                    to={`/produto/${item.id}`}
-                  >
-                    Veja mais
-                  </Link>
+                  <p className="title">{item.name}</p>
+                  <div className="price">
+                    <span>{formatter.format(item.price)}</span>
+                    <Link to={`/produto/${item.id}`} state={{ prod: item }}>
+                      Veja mais
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </Container>

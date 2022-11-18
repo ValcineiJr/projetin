@@ -32,9 +32,14 @@ type User = {
   address: string;
   telefone: string;
   birth_date: Date;
+  estado: string;
+  cidade: string;
+  bairro: string;
   cpf: string;
+  cep: string;
   password: string;
   level: string;
+  numero: number;
 };
 
 type AuthContextType = {
@@ -44,10 +49,15 @@ type AuthContextType = {
     email: string,
     password: string,
     adress: string,
+    estado: string,
+    cidade: string,
+    bairro: string,
     telefone: string,
     birth_date: Date,
     cpf: string,
-    level: string
+    cep: string,
+    level: string,
+    numero: number
   ) => Promise<boolean>;
   handleResetPassword: (email: string) => Promise<boolean>;
   handleLogin: (email: string, password: string) => Promise<boolean>;
@@ -91,7 +101,6 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
         if (docSnap.exists()) {
           const u = docSnap.data() as User;
           setUser(u);
-          const user = auth.currentUser;
         } else {
           // doc.data() will be undefined in this case
           console.log("usuário não encontrado");
@@ -109,10 +118,15 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     email: string,
     password: string,
     address: string,
+    estado: string,
+    cidade: string,
+    bairro: string,
     telefone: string,
     birth_date: Date,
     cpf: string,
-    level: string
+    cep: string,
+    level: string,
+    numero: number
   ) {
     const createdUser = await createUserWithEmailAndPassword(
       auth,
@@ -131,6 +145,11 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
         cpf,
         password,
         level,
+        estado,
+        cidade,
+        bairro,
+        numero,
+        cep,
       };
 
       try {

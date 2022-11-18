@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useProduct } from "../../hook/useProduct";
 import { formatter } from "../../utils/CurrencyFormatter";
 import Layout from "../Layout";
@@ -8,6 +8,7 @@ import { HiChevronRight, HiChevronLeft } from "react-icons/hi";
 
 import { Container } from "./styles";
 import { calculate_shipping } from "../../utils/calculateFrete";
+import { useAuth } from "../../hook/useAuth";
 
 const Carrinho: React.FC = () => {
   const {
@@ -17,7 +18,13 @@ const Carrinho: React.FC = () => {
     removeItemFromCart,
     totalCartValue,
     frete,
+    recentItems,
+    setCartToStorage,
+    finishCheckout,
   } = useProduct();
+  const { user } = useAuth();
+
+  const navigate = useNavigate();
 
   function percentage(percent: number, total: number) {
     return (percent / 100) * total;
@@ -50,20 +57,27 @@ const Carrinho: React.FC = () => {
                     <div className="info">
                       <p className="name-product">{item.name}</p>
                       <div className="options">
-                        <label htmlFor="">Qtd: </label>
-                        <button onClick={() => decreaseItemCartQuantity(item)}>
-                          <HiChevronLeft className="icon" />
-                        </button>
-                        <input
-                          type="numeric"
-                          readOnly
-                          value={item.quantity}
-                          placeholder="1"
-                        />
-                        <button onClick={() => increaseItemCartQuantity(item)}>
-                          <HiChevronRight className="icon" />
-                        </button>
-                        <button onClick={() => removeItemFromCart(item)}>
+                        <div className="separator">
+                          <label htmlFor="">Qtd: </label>
+                          <button
+                            onClick={() => decreaseItemCartQuantity(item)}
+                          >
+                            <HiChevronLeft className="icon" />
+                          </button>
+                          <input
+                            type="numeric"
+                            readOnly
+                            value={item.quantity}
+                            placeholder="1"
+                          />
+                          <button
+                            onClick={() => increaseItemCartQuantity(item)}
+                          >
+                            <HiChevronRight className="icon" />
+                          </button>
+                        </div>
+
+                        <button className="exclude" onClick={() => removeItemFromCart(item)}>
                           Excluir
                         </button>
                       </div>
@@ -86,12 +100,16 @@ const Carrinho: React.FC = () => {
               </div>
               <div className="row">
                 <span className="light">Frete:</span>
-                <span className="bold">{formatter.format(frete)}</span>
+                <span className="bold">
+                  {totalCartValue === 0 ? 0 : formatter.format(frete)}
+                </span>
               </div>
               <div className="row">
-                <span className="light">Total à prazo:</span>
+                <span className="light">Total:</span>
                 <span className="bold">
-                  {formatter.format(frete + totalCartValue)}
+                  {totalCartValue === 0
+                    ? 0
+                    : formatter.format(frete + totalCartValue)}
                 </span>
               </div>
               {/* <div className="row">
@@ -99,7 +117,7 @@ const Carrinho: React.FC = () => {
                   (em até 10x de R$ 144,44 sem juros)
                 </span>
               </div> */}
-              <div className="pix">
+              {/* <div className="pix">
                 <span style={{ fontSize: "1.2rem" }} className="light">
                   Valor a vista no <span className="bold">Pix</span>
                 </span>
@@ -115,49 +133,100 @@ const Carrinho: React.FC = () => {
                   </span>
                   )
                 </span>
-              </div>
+              </div> */}
 
-              <button>Fechar pedido</button>
+              <button
+                onClick={() => {
+                  const itemsCompra = cart.map((item, index) => {
+                    return {
+                      name: item.name,
+                      unit_amount: {
+                        value: String(item.price),
+                        currency_code: "BRL",
+                      },
+                      quantity: String(item.quantity),
+                    };
+                  });
+
+                  itemsCompra.push({
+                    name: "frete",
+                    unit_amount: {
+                      value: String(frete),
+                      currency_code: "BRL",
+                    },
+                    quantity: String(1),
+                  });
+
+                  let value = 0;
+                  const discount = 0;
+                  itemsCompra.map(
+                    (item) =>
+                      (value +=
+                        Number(item.unit_amount.value) * Number(item.quantity))
+                  );
+
+                  const pc = [
+                    {
+                      shipping: {
+                        address: {
+                          address_line_1: `${user?.address} ${user?.numero}`,
+                          address_line_2: user?.bairro,
+                          admin_area_2: user?.cidade,
+                          admin_area_1: user?.estado,
+                          postal_code: user?.cep,
+                          country_code: "BR",
+                        },
+                      },
+                      amount: {
+                        value: String(value - discount),
+
+                        currency_code: "BRL",
+                        breakdown: {
+                          item_total: {
+                            value: String(value),
+                            currency_code: "BRL",
+                          },
+                          discount: {
+                            value: String(discount),
+                            currency_code: "BRL",
+                          },
+                        },
+                      },
+                      items: itemsCompra,
+                    },
+                  ];
+                  // finishCheckout(cart);
+                  navigate("/checkout", { state: { data: pc } });
+                }}
+                disabled={totalCartValue === 0 ? true : false}
+              >
+                Fechar pedido
+              </button>
             </div>
             <div className="itens-recentes">
               <h2>Seus itens recentes</h2>
-              <div className="recent-item">
-                <div className="recent-img">
-                  <img
-                    src="https://m.media-amazon.com/images/I/315a4xhzShL._AC_AA180_.jpg"
-                    alt="product"
-                  />
+              {recentItems.map((item) => (
+                <div className="recent-item">
+                  <div className="recent-img">
+                    <Link to={`/produto/${item.id}`} state={{ prod: item }}>
+                      <img src={item.product_image} alt="product" />
+                    </Link>
+                  </div>
+                  <div className="recent-info">
+                    <p className="name">{item.name}</p>
+                    <p className="bold">{formatter.format(item.price)}</p>
+                    <button
+                      onClick={() => {
+                        if (user) {
+                          setCartToStorage(item);
+                        }
+                      }}
+                    >
+                      Adicionar ao carrinho
+                    </button>
+                  </div>
                 </div>
-                <div className="recent-info">
-                  <p>
-                    Bomba De Ar Encher Pneu Bike Bicicleta Moto Bola Balão Forte
-                  </p>
-                  <p className="bold">R$ 6,50</p>
-                  <button>Adicionar ao carrinho</button>
-                </div>
-              </div>
-              <div className="recent-item">
-                <div className="recent-img">
-                  <Link to="/">
-                    <img
-                      src="https://m.media-amazon.com/images/I/315a4xhzShL._AC_AA180_.jpg"
-                      alt="product"
-                    />{" "}
-                  </Link>
-                </div>
-
-                <div className="recent-info">
-                  <Link to="/">
-                    <p>
-                      Bomba De Ar Encher Pneu Bike Bicicleta Moto Bola Balão
-                      Forte
-                    </p>
-                  </Link>
-                  <p className="bold">R$ 6,50</p>
-
-                  <button>Adicionar ao carrinho</button>
-                </div>
-              </div>
+              ))}
             </div>
           </aside>
         </div>

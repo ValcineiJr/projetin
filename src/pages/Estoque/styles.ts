@@ -22,7 +22,7 @@ export const Container = styled.div`
     }
 
     th {
-      background-color: ${({ theme }) => theme.colors.success};
+      background-color: #009ddc;
       color: white;
       /* border-radius: 5px; */
     }

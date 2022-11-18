@@ -9,7 +9,7 @@ export function calculate_shipping(weight: any = 0, days: any = 5) {
   let shipping_time_ms = ms;
   let arrival_date;
   let shipping_cost_dollars;
-  let weight_in_ounces = parseFloat(weight) * 8; // multiply input weight by 16 to obtain ounces
+  let weight_in_ounces = parseFloat(weight) * 16; // multiply input weight by 16 to obtain ounces
 
   // create shipping multiplier depending on selected shipping speed
   if (days === 3) {
@@ -24,9 +24,9 @@ export function calculate_shipping(weight: any = 0, days: any = 5) {
   if (weight_in_ounces < 20) {
     cost_per_ounce = 2 * shipping_cost_multiplier;
   } else if (weight_in_ounces > 32) {
-    cost_per_ounce = 10 * shipping_cost_multiplier;
+    cost_per_ounce = 20 * shipping_cost_multiplier;
   } else {
-    cost_per_ounce = 5 * shipping_cost_multiplier;
+    cost_per_ounce = 10 * shipping_cost_multiplier;
   }
 
   // determine actual shipping cost of weight * cost per ounce * 0.01 to convert to dollars.
@@ -59,19 +59,20 @@ export function calculate_shipping(weight: any = 0, days: any = 5) {
 
   // create date in string format of "June 3, 2016"
   let monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro",
   ];
+
   let formatted_current_date_string =
     "" +
     monthNames[current_date.getMonth()] +

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "../Layout";
 
 import { Navigation, Pagination, Autoplay } from "swiper";
@@ -9,34 +9,23 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 import { Container } from "./styles";
+import { useProduct } from "../../hook/useProduct";
+import { Product } from "../../contexts/ProductContext";
+import { Link } from "react-router-dom";
+import { formatter } from "../../utils/CurrencyFormatter";
 
 const Home: React.FC = () => {
-  const sectionItem = [
-    {
-      name: "Cadeira2 MaxRacer Blue Agressive",
-      description: [
-        "Gamer profissional ou não, você precisa de uma cadeira focada em    oferecer mais conforto para horas de jogo.",
-        "    Ajuste braços, encosto, altura e esteja pronto para o jogo.",
-        "A cadeira gamer MaxRacer Aggressive é para aquelas pessoas        ousadas e modernas que têm - ou quer em ter - um setup        aggressivo! E essa cadeira conta com um design que resume tudo        isso e muito mais.",
-      ],
-    },
-    {
-      name: "Headset havit HV",
-      description: [
-        "Gamer profissional ou não, você precisa de uma cadeira focada em    oferecer mais conforto para horas de jogo.",
-        "    Ajuste braços, encosto, altura e esteja pronto para o jogo.",
-        "A cadeira gamer MaxRacer Aggressive é para aquelas pessoas        ousadas e modernas que têm - ou quer em ter - um setup        aggressivo! E essa cadeira conta com um design que resume tudo        isso e muito mais.",
-      ],
-    },
-    {
-      name: "Teclado Redragon Shiva RBG",
-      description: [
-        "Gamer profissional ou não, você precisa de uma cadeira focada em    oferecer mais conforto para horas de jogo.",
-        "    Ajuste braços, encosto, altura e esteja pronto para o jogo.",
-        "A cadeira gamer MaxRacer Aggressive é para aquelas pessoas        ousadas e modernas que têm - ou quer em ter - um setup        aggressivo! E essa cadeira conta com um design que resume tudo        isso e muito mais.",
-      ],
-    },
-  ];
+  const { getAllProducts } = useProduct();
+  const [itens, setItens] = useState<Product[]>([]);
+
+  useEffect(() => {
+    async function getData() {
+      const result = await getAllProducts();
+      setItens(result);
+    }
+    getData();
+  }, []);
+
   return (
     <Layout>
       <Container>
@@ -73,18 +62,19 @@ const Home: React.FC = () => {
 
         <div className="wrapper">
           <section>
-            {sectionItem.map((item) => (
+            {itens.slice(0, 3).map((item) => (
               <div key={item.name} className="section-item">
-                <img
-                  src={require("../../assets/img/produtos/cadeira.jpg")}
-                  alt=""
-                />
-                <p className="title">{item.name}</p>
-                {item.description.map((item) => (
-                  <p className="description">{item}</p>
-                ))}
+                <img src={item.product_image} alt="" />
+                <div className="info">
+                  <p className="title">{item.name}</p>
 
-                <a href="#">Veja mais!</a>
+                  <div className="separator">
+                    <span>{formatter.format(item.price)}</span>
+                    <Link to={`/produto/${item.id}`} state={{ prod: item }}>
+                      Veja mais!
+                    </Link>
+                  </div>
+                </div>
               </div>
             ))}
           </section>

@@ -1,7 +1,10 @@
+import { info } from "console";
 import React from "react";
+import { useLocation } from "react-router-dom";
 import { useTheme } from "styled-components";
 
 import Editor from "../../componentes/Editor";
+import { Product } from "../../contexts/ProductContext";
 import { useAuth } from "../../hook/useAuth";
 import { useProduct } from "../../hook/useProduct";
 import { formatter } from "../../utils/CurrencyFormatter";
@@ -11,11 +14,14 @@ import Layout from "../Layout";
 import { Container } from "./styles";
 
 const Produto: React.FC = () => {
-  const { product, setCartToStorage } = useProduct();
+  const { setCartToStorage, addItemsToRecents } = useProduct();
   const [messageColor, setMessageColor] = React.useState<any>(null);
   const [message, setMessage] = React.useState<any>("");
   const { user } = useAuth();
+  const location = useLocation();
   const { colors } = useTheme();
+  const product: Product = location.state.prod;
+  const outStock = product?.quantity === 0;
 
   function handleAddToCart() {
     if (user) {
@@ -28,6 +34,12 @@ const Produto: React.FC = () => {
     }
   }
 
+  React.useEffect(() => {
+    if (product.quantity > 0) {
+      addItemsToRecents(product);
+    }
+  }, []);
+
   // console.log(product?.description.slice(0, 5));
 
   return (
@@ -39,7 +51,17 @@ const Produto: React.FC = () => {
         <div className="wrapper">
           <h1>{product?.name}</h1>
           <div className="info-container">
-            <img src={product?.product_image} alt="" />
+            <div className="img">
+              <img src={product?.product_image} alt="" />
+              {outStock && (
+                <img
+                  className="estoque"
+                  src={require("../../assets/img/estoque.png")}
+                  alt=""
+                />
+              )}
+            </div>
+
             <div className="info">
               <div className="separator">
                 <p className="bold">Descrição</p>
@@ -51,7 +73,12 @@ const Produto: React.FC = () => {
               <div className="cart">
                 <p> {formatter.format(product!.price)}</p>
 
-                <button onClick={handleAddToCart}>Adicionar ao carrinho</button>
+                <button
+                  disabled={outStock ? true : false}
+                  onClick={handleAddToCart}
+                >
+                  Adicionar ao carrinho
+                </button>
               </div>
             </div>
           </div>

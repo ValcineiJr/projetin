@@ -8,6 +8,25 @@ export default createGlobalStyle`
   
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+*:disabled {
+      background-color: dimgrey !important;
+      color: linen;
+      opacity: 1;
+
+      cursor: not-allowed;
+    }
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 html,body{
   scroll-behavior: smooth !important;
   

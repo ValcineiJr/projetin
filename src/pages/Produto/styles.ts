@@ -59,6 +59,28 @@ export const Container = styled.div`
     margin-bottom: 10px;
   }
 
+  @media only screen and (max-width: 1000px) {
+    .info-container {
+      flex-direction: column;
+      gap: 0 !important;
+
+      .separator {
+        display: none !important;
+      }
+
+      .cart {
+        /* background-color: red; */
+        margin-top: 20px !important;
+      }
+    }
+
+    .bigger-desc {
+      margin-top: 60px !important;
+    }
+
+    /* margin: 0 16px; */
+  }
+
   .info-container {
     display: flex;
 
@@ -66,6 +88,18 @@ export const Container = styled.div`
 
     width: 100%;
     height: 400px;
+
+    .img {
+      position: relative;
+
+      background-color: green;
+
+      .estoque {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    }
 
     /* background-color: red; */
 

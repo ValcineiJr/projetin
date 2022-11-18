@@ -54,6 +54,41 @@ export const Container = styled.div`
 
       padding-bottom: 16px;
 
+      .info {
+        /* background-color: red; */
+
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+
+        justify-content: space-between;
+
+        min-height: 100px;
+
+        .separator {
+          display: flex;
+          width: 100%;
+
+          /* background-color: red; */
+
+          align-items: center;
+
+          padding: 0 16px;
+
+          justify-content: space-between;
+
+          span {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: white;
+          }
+        }
+      }
+
+      img {
+        height: 384px;
+      }
+
       p {
         margin: 0 16px;
       }
@@ -76,9 +111,6 @@ export const Container = styled.div`
         border-radius: 5px;
 
         padding: 8px 16px;
-
-        margin-right: auto;
-        margin-left: 16px;
       }
     }
   }

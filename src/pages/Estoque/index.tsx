@@ -10,7 +10,7 @@ import { Container } from "./styles";
 
 const Estoque: React.FC = () => {
   const { deleteItem, getAllProducts } = useProduct();
-  const [category, setCategory] = useState("Notebooks");
+  const [category, setCategory] = useState("Todos");
   const [products, setProducts] = useState<Product[]>();
   const [originalProducts, setOriginalProducts] = useState<Product[]>();
   const [change, setChange] = useState(false);
@@ -28,10 +28,17 @@ const Estoque: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    setProducts(originalProducts?.filter((item) => item.category === category));
+    if (category !== "Todos") {
+      setProducts(
+        originalProducts?.filter((item) => item.category === category)
+      );
+    } else {
+      setProducts(originalProducts);
+    }
   }, [category, originalProducts]);
 
   const categories = [
+    "Todos",
     "Notebooks",
     "Consoles",
     "Monitores",
@@ -75,7 +82,7 @@ const Estoque: React.FC = () => {
                   backgroundColor: index % 2 === 0 ? "white" : "#eee",
                   borderBottom:
                     index === products.length - 1
-                      ? `5px solid ${colors.success}`
+                      ? `5px solid #009ddc`
                       : "none",
                 }}
               >

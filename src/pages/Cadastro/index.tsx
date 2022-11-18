@@ -13,10 +13,16 @@ const Cadastro: React.FC = () => {
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [confirm_password, setConfirm_password] = React.useState<string>("");
-  const [address, setaddress] = React.useState<string>("");
   const [telefone, setTelefone] = React.useState<string>("");
   const [birth_date, setBirth_date] = React.useState<any>("");
   const [cpf, setCpf] = React.useState<string>("");
+
+  const [cep, setCep] = React.useState<string>("");
+  const [bairro, setBairro] = React.useState<string>("");
+  const [numero, setNumero] = React.useState<any>("");
+  const [cidade, setCidade] = React.useState<string>("");
+  const [estado, setEstado] = React.useState<string>("");
+  const [address, setaddress] = React.useState<string>("");
 
   const [messageColor, setMessageColor] = React.useState<any>(null);
   const [message, setMessage] = React.useState<any>("");
@@ -42,16 +48,24 @@ const Cadastro: React.FC = () => {
     } else if (password !== confirm_password) {
       setMessageColor(colors.error);
       setMessage("As senhas devem combinar");
+    } else if (isInTheFuture(new Date(birth_date))) {
+      setMessageColor(colors.error);
+      setMessage("Forneça uma data de nascimento válida");
     } else {
       const result = await handleRegisterClient(
         username,
         email,
         password,
         address,
+        estado,
+        cidade,
+        bairro,
         telefone,
         birth_date,
         cpf,
-        "user"
+        cep,
+        "user",
+        numero
       );
       if (result) {
         setMessageColor(colors.success);
@@ -62,6 +76,38 @@ const Cadastro: React.FC = () => {
         setMessage("Erro ao criar conta");
       }
     }
+  }
+
+  function buscarCep() {
+    if (cep.length < 8) {
+      return;
+    } else {
+      fetch(`http://viacep.com.br/ws/${cep}/json/`, { mode: "cors" })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.hasOwnProperty("erro")) {
+            alert("Cep não existente");
+          } else {
+            setBairro(data.bairro);
+            setCidade(data.localidade);
+            setEstado(data.uf);
+            setaddress(data.logradouro);
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  }
+
+  function isInTheFuture(date: Date) {
+    const today = new Date();
+
+    // 👇️ OPTIONAL!
+    // This line sets the time of the current date to the
+    // last millisecond, so the comparison returns `true` only if
+    // date is at least tomorrow
+    today.setHours(23, 59, 59, 998);
+
+    return date > today;
   }
 
   return (
@@ -106,12 +152,59 @@ const Cadastro: React.FC = () => {
             />
           </div>
           <div className="row">
+            <InputMask
+              mask="99999-999"
+              type="text"
+              required
+              value={cep}
+              onChange={(e) => {
+                setCep(e.target.value);
+              }}
+              onBlur={buscarCep}
+              placeholder="Cep"
+            />
+          </div>
+          <div className="row">
+            <input
+              type="text"
+              required
+              value={bairro}
+              onChange={(e) => setBairro(e.target.value)}
+              placeholder="Bairro"
+            />
             <input
               type="text"
               required
               value={address}
-              onChange={(e) => setaddress(e.target.value)}
+              onChange={(e) => {
+                setaddress(e.target.value);
+              }}
               placeholder="Endereço"
+            />
+            <input
+              type="number"
+              required
+              value={numero}
+              onChange={(e) => setNumero(Number(e.target.value))}
+              placeholder="Número"
+            />
+          </div>
+          <div className="row">
+            <input
+              type="text"
+              required
+              value={cidade}
+              onChange={(e) => {
+                setCidade(e.target.value);
+              }}
+              placeholder="Cidade"
+            />
+            <input
+              type="text"
+              required
+              value={estado}
+              onChange={(e) => setEstado(e.target.value)}
+              placeholder="Estado"
             />
           </div>
           <div className="row">
@@ -130,6 +223,9 @@ const Cadastro: React.FC = () => {
               value={birth_date}
               onChange={(e) => setBirth_date(e.target.value)}
               placeholder="data"
+              onBlur={() => {
+                console.log(isInTheFuture(new Date(birth_date)));
+              }}
             />
           </div>
           <div className="row">

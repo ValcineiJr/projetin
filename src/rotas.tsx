@@ -12,6 +12,7 @@ import Produto from "./pages/Produto";
 import Carrinho from "./pages/Carrinho";
 import Estoque from "./pages/Estoque";
 import EditarProduto from "./pages/EditarProduto";
+import Checkout from "./pages/Checkout";
 
 export function AppRoutes() {
   return (
@@ -29,6 +30,7 @@ export function AppRoutes() {
         <Route path="/carrinho" element={<Carrinho />} />
         <Route path="/estoque" element={<Estoque />} />
         <Route path="/editar/produto/:id" element={<EditarProduto />} />
+        <Route path="/checkout" element={<Checkout />} />
       </Routes>
     </Router>
   );

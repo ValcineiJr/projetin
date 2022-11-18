@@ -8,9 +8,23 @@ export const Container = styled.div`
 
   margin-top: 40px;
 
+  @media only screen and (max-width: 1000px) {
+    .preci-text {
+      display: none !important;
+    }
+  }
+
   img {
     width: 100%;
     height: 100%;
+  }
+
+  @media only screen and (max-width: 1000px) {
+    .wrapper {
+      flex-direction: column;
+    }
+
+    /* margin: 0 16px; */
   }
 
   .wrapper {
@@ -26,6 +40,11 @@ export const Container = styled.div`
       background-color: white;
       border-radius: 5px;
       height: max-content;
+
+      button:disabled {
+        background-color: #888;
+        cursor: not-allowed;
+      }
     }
 
     section {
@@ -69,6 +88,18 @@ export const Container = styled.div`
 
         padding-top: 12px;
 
+        @media only screen and (max-width: 1000px) {
+          flex-direction: column;
+          /* background-color: red; */
+
+          .price {
+            margin-left: auto;
+
+            margin-right: 10px;
+            margin-bottom: 10px;
+          }
+        }
+
         .price {
           font-weight: bold;
           font-size: 1.8rem;
@@ -80,25 +111,57 @@ export const Container = styled.div`
           align-items: center;
 
           .img-product {
-            height: 180px;
-            width: 180px;
+            min-height: 180px;
+            min-width: 180px;
 
-            background-color: red;
+            max-height: 180px;
+            max-width: 180px;
 
             margin: 0 12px;
+
+            img {
+              min-height: 180px;
+              min-width: 180px;
+
+              max-height: 180px;
+              max-width: 180px;
+            }
           }
 
           .info {
             display: flex;
             flex-direction: column;
+            flex-wrap: wrap;
 
             gap: 20px;
 
             /* background-color: green; */
 
+            @media only screen and (max-width: 1000px) {
+              .options {
+                /* background-color: red; */
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+
+                text-align: center;
+
+                .exclude {
+                  margin-left: 25px;
+                  margin-top: 10px;
+                }
+              }
+            }
+
             .options {
               display: flex;
               align-items: center;
+
+              .separator {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              }
 
               .icon {
                 font-size: 1.8rem;
@@ -124,7 +187,7 @@ export const Container = styled.div`
               background-color: transparent;
 
               color: #1111b3;
-              font-size: 1.2rem;
+              font-size: 1.4rem;
 
               border: none;
 
@@ -256,10 +319,19 @@ export const Container = styled.div`
 
           .recent-info {
             flex: 2;
-
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+
+            gap: 10px;
+
+            p.name {
+              text-overflow: ellipsis;
+              overflow: hidden;
+              display: -webkit-box;
+              -webkit-line-clamp: 2;
+              -webkit-box-orient: vertical;
+            }
           }
         }
       }
