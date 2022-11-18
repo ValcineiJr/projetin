@@ -28,23 +28,29 @@ const History: React.FC = () => {
       <Container>
         <h1>Histórico de pedidos</h1>
         <div className="wrapper">
-          {itens.map((item) => (
-            <div key={item.id} className="item">
-              <div className="item-img">
-                <img src={item.product_image} alt="" />
+          {itens.length > 0 ? (
+            itens.map((item) => (
+              <div key={item.id} className="item">
+                <div className="item-img">
+                  <img src={item.product_image} alt="" />
+                </div>
+                <div className="info">
+                  <div className="item-name">{item.name}</div>
+                  <div className="item-price">
+                    {formatter.format(item.price)}
+                  </div>
+                  <input
+                    type="numeric"
+                    readOnly
+                    value={item.quantity}
+                    placeholder="1"
+                  />
+                </div>
               </div>
-              <div className="info">
-                <div className="item-name">{item.name}</div>
-                <div className="item-price">{formatter.format(item.price)}</div>
-                <input
-                  type="numeric"
-                  readOnly
-                  value={item.quantity}
-                  placeholder="1"
-                />
-              </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <h1 className="empty">Sem pedidos</h1>
+          )}
         </div>
       </Container>
     </Layout>

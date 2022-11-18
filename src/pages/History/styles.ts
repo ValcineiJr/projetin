@@ -13,6 +13,10 @@ export const Container = styled.div`
     margin-bottom: 20px;
   }
 
+  .empty {
+    color: #0f1111;
+  }
+
   @media only screen and (max-width: 1000px) {
     .wrapper {
       flex-direction: column;
