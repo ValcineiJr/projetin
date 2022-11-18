@@ -13,6 +13,7 @@ import Carrinho from "./pages/Carrinho";
 import Estoque from "./pages/Estoque";
 import EditarProduto from "./pages/EditarProduto";
 import Checkout from "./pages/Checkout";
+import History from "./pages/History";
 
 export function AppRoutes() {
   return (
@@ -31,6 +32,7 @@ export function AppRoutes() {
         <Route path="/estoque" element={<Estoque />} />
         <Route path="/editar/produto/:id" element={<EditarProduto />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/history" element={<History />} />
       </Routes>
     </Router>
   );

@@ -49,7 +49,7 @@ const Carrinho: React.FC = () => {
             </div>
             {cart?.map((item) => {
               return (
-                <div className="item">
+                <div key={item.id} className="item">
                   <div className="separator">
                     <div className="img-product">
                       <img src={item.product_image} alt="product" />
@@ -77,7 +77,10 @@ const Carrinho: React.FC = () => {
                           </button>
                         </div>
 
-                        <button className="exclude" onClick={() => removeItemFromCart(item)}>
+                        <button
+                          className="exclude"
+                          onClick={() => removeItemFromCart(item)}
+                        >
                           Excluir
                         </button>
                       </div>

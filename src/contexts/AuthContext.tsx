@@ -24,6 +24,7 @@ import {
   storageRef,
   uploadBytesResumable,
 } from "../services/firebase";
+import { Product } from "./ProductContext";
 
 type User = {
   id: string;
@@ -74,6 +75,7 @@ type AuthContextType = {
 
   handleChangeEmail: (email: string) => Promise<boolean>;
   handleChangePassword: (email: string) => Promise<boolean>;
+  getOrders: () => Promise<false | Product[]>;
   handleUpdateUser: (
     username?: string,
     address?: string,
@@ -346,6 +348,19 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     }
   };
 
+  const getOrders = async () => {
+    try {
+      const u = auth.currentUser as any;
+      const docRef = doc(database, "orders", u.uid);
+      const docSnap: any = await getDoc(docRef);
+      const DBCART: Product[] = docSnap.data().cart;
+
+      return DBCART;
+    } catch (error) {
+      return false;
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -358,6 +373,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
         handleChangePassword,
         handleUpdateUser,
         handleCreateProduct,
+        getOrders,
       }}
     >
       {props.children}
