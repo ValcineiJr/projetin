@@ -81,7 +81,12 @@ type AuthContextType = {
     address?: string,
     telefone?: string,
     birth_date?: string,
-    cpf?: string
+    cpf?: string,
+    cep?: string,
+    bairro?: string,
+    numero?: string,
+    cidade?: string,
+    estado?: string
   ) => Promise<boolean>;
 };
 
@@ -194,7 +199,12 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     address?: string,
     telefone?: string,
     birth_date?: string,
-    cpf?: string
+    cpf?: string,
+    cep?: string,
+    bairro?: string,
+    numero?: string,
+    cidade?: string,
+    estado?: string
   ) {
     const u = auth.currentUser as any;
     try {
@@ -206,6 +216,11 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
           telefone,
           birth_date,
           cpf,
+          cep,
+          bairro,
+          numero,
+          cidade,
+          estado,
         },
         { merge: true }
       );

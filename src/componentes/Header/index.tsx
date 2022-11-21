@@ -91,7 +91,7 @@ const Header: React.FC = () => {
                   if (user.level === "employee") {
                     if (item.to === "/carrinho") {
                       return (
-                        <li>
+                        <li key={String(index)}>
                           <FaShoppingCart />
                           <Link to="/cadastro/produto">Cadastrar produto</Link>
                         </li>
@@ -102,7 +102,7 @@ const Header: React.FC = () => {
                   if (user.level === "admin") {
                     if (item.name === "Criar conta") {
                       return (
-                        <li>
+                        <li key={String(index)}>
                           <AiOutlineLogin />
                           <Link to="/cadastro/funcionario">
                             Cadastrar funcionário
@@ -112,7 +112,7 @@ const Header: React.FC = () => {
                     }
                     if (item.to === "/carrinho") {
                       return (
-                        <li>
+                        <li key={String(index)}>
                           <FaShoppingCart />
                           <Link to="/cadastro/produto">Cadastrar produto</Link>
                         </li>
@@ -134,7 +134,7 @@ const Header: React.FC = () => {
 
                 if (item.name === "Contato") {
                   return (
-                    <li>
+                    <li key={String(index)}>
                       <MdEmail />
                       <a
                         onClick={(e) => {
@@ -152,7 +152,7 @@ const Header: React.FC = () => {
                   );
                 }
                 return (
-                  <li>
+                  <li key={String(index)}>
                     <item.icon />
                     <Link to={item.to}>{item.name}</Link>
                   </li>

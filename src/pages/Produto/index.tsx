@@ -24,6 +24,7 @@ const Produto: React.FC = () => {
   const outStock = product?.quantity === 0;
 
   function handleAddToCart() {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
     if (user) {
       setCartToStorage(product);
       setMessage("Item adicionado ao carrinho som sucesso.");
@@ -38,13 +39,14 @@ const Produto: React.FC = () => {
     if (product.quantity > 0) {
       addItemsToRecents(product);
     }
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }, []);
 
   // console.log(product?.description.slice(0, 5));
 
   return (
     <Layout>
-      <Container color={messageColor}>
+      <Container id="inicio" color={messageColor}>
         <div className="messageBox">
           <p>{message}</p>
         </div>

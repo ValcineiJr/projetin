@@ -58,7 +58,7 @@ const Carrinho: React.FC = () => {
                       <p className="name-product">{item.name}</p>
                       <div className="options">
                         <div className="separator">
-                          <label htmlFor="">Qtd: </label>
+                          <label htmlFor="">Quantidade: </label>
                           <button
                             onClick={() => decreaseItemCartQuantity(item)}
                           >
@@ -144,7 +144,7 @@ const Carrinho: React.FC = () => {
                     return {
                       name: item.name,
                       unit_amount: {
-                        value: String(item.price),
+                        value: String(item.price.toFixed(2)),
                         currency_code: "BRL",
                       },
                       quantity: String(item.quantity),
@@ -181,16 +181,16 @@ const Carrinho: React.FC = () => {
                         },
                       },
                       amount: {
-                        value: String(value - discount),
+                        value: String((value - discount).toFixed(2)),
 
                         currency_code: "BRL",
                         breakdown: {
                           item_total: {
-                            value: String(value),
+                            value: String(value.toFixed(2)),
                             currency_code: "BRL",
                           },
                           discount: {
-                            value: String(discount),
+                            value: String(discount.toFixed(2)),
                             currency_code: "BRL",
                           },
                         },
@@ -198,7 +198,7 @@ const Carrinho: React.FC = () => {
                       items: itemsCompra,
                     },
                   ];
-                  // finishCheckout(cart);
+
                   navigate("/checkout", { state: { data: pc } });
                 }}
                 disabled={totalCartValue === 0 ? true : false}

@@ -169,19 +169,15 @@ export function ProductContextProvider(props: ProductContextProviderProps) {
     }
   }
 
-  function randomDate(date1: any, date2: any) {
-    function randomValueBetween(min: number, max: number) {
-      return Math.random() * (max - min) + min;
-    }
-    date1 = date1 || "01-01-1970";
-    date2 = date2 || new Date().toLocaleDateString();
-    date1 = new Date(date1).getTime();
-    date2 = new Date(date2).getTime();
-    if (date1 > date2) {
-      return new Date(randomValueBetween(date2, date1)).toLocaleDateString();
-    } else {
-      return new Date(randomValueBetween(date1, date2)).toLocaleDateString();
-    }
+  function randomDate() {
+    const now = new Date();
+    const other = new Date();
+
+    other.setDate(other.getDate() + 2 * 7);
+
+    return new Date(
+      now.getTime() + Math.random() * (other.getTime() - now.getTime())
+    );
   }
 
   function setCartToStorage(product: Product) {
@@ -208,10 +204,8 @@ export function ProductContextProvider(props: ProductContextProviderProps) {
         }
 
         if (!localStorage.getItem(freteDateStorageKey)) {
-          const hj = new Date();
-          const other = new Date().setMonth(1);
-          const partida = randomDate(hj.toLocaleDateString(), other);
-          setFreteDate(partida);
+          const partida = randomDate();
+          setFreteDate(partida.toLocaleDateString());
           localStorage.setItem(
             freteDateStorageKey,
             JSON.stringify(Number(partida))

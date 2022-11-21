@@ -178,8 +178,8 @@ export const Container = styled.div`
 
         .total {
           .ligh {
-            color: #dc3545;
-            font-size: 1.6rem;
+            color: #0f1111;
+            font-size: 1.4rem;
             font-weight: bold;
 
             margin-top: 10px;

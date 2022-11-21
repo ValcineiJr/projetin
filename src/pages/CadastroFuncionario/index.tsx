@@ -4,6 +4,7 @@ import { useTheme } from "styled-components";
 import { useAuth } from "../../hook/useAuth";
 import Layout from "../Layout";
 import InputMask from "react-input-mask";
+import { cpf as c } from "cpf-cnpj-validator";
 import { Container } from "./styles";
 
 const CadastroFuncioario: React.FC = () => {
@@ -52,6 +53,9 @@ const CadastroFuncioario: React.FC = () => {
     } else if (isInTheFuture(new Date(birth_date))) {
       setMessageColor(colors.error);
       setMessage("Forneça uma data de nascimento válida");
+    } else if (!c.isValid(cpf)) {
+      setMessageColor(colors.error);
+      setMessage("CPF inválido ou incorreto");
     } else {
       const result = await handleRegisterClient(
         username,
@@ -236,12 +240,13 @@ const CadastroFuncioario: React.FC = () => {
             />
           </div>
           <div className="row">
-            <InputMask
+            <input
+              maxLength={14}
               type="text"
               required
-              mask="999.999.999-99"
+              // mask="999.999.999-99"
               value={cpf}
-              onChange={(e) => setCpf(e.target.value)}
+              onChange={(e) => setCpf(c.format(e.target.value))}
               placeholder="Cpf"
             />
           </div>
