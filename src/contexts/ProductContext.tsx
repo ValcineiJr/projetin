@@ -309,6 +309,8 @@ export function ProductContextProvider(props: ProductContextProviderProps) {
   async function finishCheckout() {
     const u = auth.currentUser as any;
     try {
+      setCart([]);
+
       const docRef = doc(database, "orders", u.uid);
       const docSnap: any = await getDoc(docRef);
       const DBCART: Product[] = docSnap.data().cart;
@@ -336,8 +338,6 @@ export function ProductContextProvider(props: ProductContextProviderProps) {
           );
         }
       });
-
-      setCart([]);
 
       return true;
     } catch (err) {

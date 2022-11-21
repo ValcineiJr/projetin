@@ -33,14 +33,17 @@ const Checkout: React.FC = () => {
     setColor(colors.success);
 
     async function redirect() {
-      const response = await finishCheckout();
-      if (response) {
-        navigate("/");
-      }
+      await finishCheckout();
+
+      navigate("/");
     }
 
     setTimeout(redirect, 2000);
   }
+
+  React.useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, []);
 
   return (
     <Layout>

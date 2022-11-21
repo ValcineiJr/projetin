@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   min-height: 60vh;
-  padding: 20px;
+  padding: 100px 20px 80px 20px;
 
   @media only screen and (max-width: 1000px) {
     .wrapper {
@@ -86,7 +86,7 @@ export const Container = styled.div`
           }
 
           .item-price {
-            color: #dc3545;
+            color: #0f1111;
           }
 
           .item-img {
