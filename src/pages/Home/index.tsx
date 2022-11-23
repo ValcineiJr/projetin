@@ -9,14 +9,16 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 import { Container } from "./styles";
+import { FaShoppingCart } from "react-icons/fa";
 import { useProduct } from "../../hook/useProduct";
 import { Product } from "../../contexts/ProductContext";
 import { Link } from "react-router-dom";
 import { formatter } from "../../utils/CurrencyFormatter";
 
 const Home: React.FC = () => {
-  const { getAllProducts } = useProduct();
+  const { getAllProducts, setCartToStorage } = useProduct();
   const [itens, setItens] = useState<Product[]>([]);
+  const [message, setMessage] = React.useState<any>("");
 
   useEffect(() => {
     async function getData() {
@@ -28,7 +30,7 @@ const Home: React.FC = () => {
 
   return (
     <Layout>
-      <Container>
+      <Container message={message}>
         <div className="carossel">
           <Swiper
             loop={true}
@@ -59,7 +61,9 @@ const Home: React.FC = () => {
         </div>
 
         <h1>Produtos mais vendidos</h1>
-
+        <div className="messageBox">
+          <p>{message}</p>
+        </div>
         <div className="wrapper">
           <section>
             {itens.slice(0, 3).map((item) => (
@@ -70,9 +74,21 @@ const Home: React.FC = () => {
 
                   <div className="separator">
                     <span>{formatter.format(item.price)}</span>
-                    <Link to={`/produto/${item.id}`} state={{ prod: item }}>
-                      Veja mais!
-                    </Link>
+                    <div>
+                      <Link to={`/produto/${item.id}`} state={{ prod: item }}>
+                        Veja mais!
+                      </Link>
+                      <button
+                        onClick={() => {
+                          setCartToStorage(item);
+                          setMessage(
+                            "Item adicionado ao carrinho som sucesso."
+                          );
+                        }}
+                      >
+                        <FaShoppingCart />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

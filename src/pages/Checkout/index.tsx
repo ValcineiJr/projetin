@@ -30,20 +30,20 @@ const Checkout: React.FC = () => {
   const form: any = React.useRef();
 
   async function redirect() {
-    sendEmail();
-    await finishCheckout();
     navigate("/");
   }
 
   async function handleApprove(orderID: any) {
     setPaidFor("success");
     setMessage(
-      "Compra realizada com sucesso, você será redirecionado para página principal"
+      "Compra realizada com sucesso, agora você pode acompanhar o seu pedido indo no seu perfil e em histórico de pedidos, você será redirecionado para página principal"
     );
+    sendEmail();
+    await finishCheckout();
     setColor(colors.success);
     setOrderID(orderID);
 
-    setTimeout(redirect, 2000);
+    setTimeout(redirect, 3000);
   }
 
   const sendEmail = () => {
@@ -77,7 +77,7 @@ const Checkout: React.FC = () => {
         Compra realizada com sucesso :)
       </div>
     </header>
-      <p style='font-size:14px; font-family:Arial;'>Olá <span style='font-weight:bold; color:#1f1f1f;'>Vafucajuju!!</span></p>
+      <p style='font-size:14px; font-family:Arial;'>Olá <span style='font-weight:bold; color:#1f1f1f;'>${user?.name}!!</span></p>
       <p style='font-size:14px; font-family:Arial; color:#1f1f1f;'>Recebemos o seu pedido <span style='font-weight:bold;'>${oderID}.</span>  </p>
         `;
 

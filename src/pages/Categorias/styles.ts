@@ -1,7 +1,38 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
+interface ContainerProps {
+  message?: string;
+}
+
+export const Container = styled.div<ContainerProps>`
   min-height: 60vh;
+
+  .messageBox {
+    margin: auto;
+
+    width: 100%;
+    max-width: 1000px;
+  }
+
+  .messageBox {
+    display: ${({ message }) => (message !== "" ? "flex" : "none")};
+    background-color: ${({ theme }) => theme.colors.success};
+
+    transition: all 1s;
+
+    border-radius: 5px;
+
+    height: 40px;
+
+    color: white;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 1.6rem;
+
+    margin-bottom: 20px;
+  }
 
   .square {
     position: relative;
@@ -80,6 +111,14 @@ export const Container = styled.div`
 
           border-radius: 5px;
 
+          padding: 8px 16px;
+        }
+
+        button {
+          color: #fff;
+          background-color: #0d6efd;
+          border-color: #0d6efd;
+          border-radius: 5px;
           padding: 8px 16px;
         }
       }

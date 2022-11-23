@@ -2,16 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useParams, Link } from "react-router-dom";
 import { Product } from "../../contexts/ProductContext";
 import { useProduct } from "../../hook/useProduct";
+import { FaShoppingCart } from "react-icons/fa";
 import { formatter } from "../../utils/CurrencyFormatter";
 import Layout from "../Layout";
 
 import { Container } from "./styles";
 
 const Categorias: React.FC = () => {
-  const { getAllProducts } = useProduct();
+  const { getAllProducts, setCartToStorage } = useProduct();
   let location = useLocation();
   let { category } = useParams();
   const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [message, setMessage] = React.useState<any>("");
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 
   useEffect(() => {
@@ -42,8 +44,11 @@ const Categorias: React.FC = () => {
 
   return (
     <Layout>
-      <Container>
+      <Container message={message}>
         <h1>{category}</h1>
+        <div className="messageBox">
+          <p>{message}</p>
+        </div>
         <div className="wrapper">
           <div className="products">
             {filteredProducts.map((item) => {
@@ -67,6 +72,14 @@ const Categorias: React.FC = () => {
                     <Link to={`/produto/${item.id}`} state={{ prod: item }}>
                       Veja mais
                     </Link>
+                    <button
+                      onClick={() => {
+                        setCartToStorage(item);
+                        setMessage("Item adicionado ao carrinho som sucesso.");
+                      }}
+                    >
+                      <FaShoppingCart />
+                    </button>
                   </div>
                 </div>
               );

@@ -103,7 +103,7 @@ const Estoque: React.FC = () => {
                     Excluir
                   </button>
                 </td>
-                <td>{item.name}</td>
+                <td style={{ padding: 16 }}>{item.name}</td>
                 <td>{item.quantity}</td>
                 <td>{formatter.format(item.price)}</td>
               </tr>

@@ -43,7 +43,8 @@ const CadastroFuncioario: React.FC = () => {
       telefone === "" ||
       birth_date === "" ||
       cpf === "" ||
-      numero === ""
+      numero === "" ||
+      cep.length < 8
     ) {
       setMessageColor(colors.error);
       setMessage("Todos os campos devem ser preenchidos corretamente!");
@@ -87,7 +88,7 @@ const CadastroFuncioario: React.FC = () => {
     if (cep.length < 8) {
       return;
     } else {
-      fetch(`http://viacep.com.br/ws/${cep}/json/`, { mode: "cors" })
+      fetch(`https://viacep.com.br/ws/${cep}/json/`, { mode: "cors" })
         .then((res) => res.json())
         .then((data) => {
           if (data.hasOwnProperty("erro")) {

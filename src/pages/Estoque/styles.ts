@@ -42,7 +42,7 @@ export const Container = styled.div`
     th,
     td {
       flex: 1;
-      height: 50px;
+      min-height: 50px;
 
       display: flex;
       justify-content: center;
