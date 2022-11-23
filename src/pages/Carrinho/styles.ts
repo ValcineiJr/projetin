@@ -313,8 +313,6 @@ export const Container = styled.div`
           .recent-img {
             flex: 1;
             height: 100px;
-
-            background-color: red;
           }
 
           .recent-info {

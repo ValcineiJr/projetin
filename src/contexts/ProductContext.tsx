@@ -308,20 +308,29 @@ export function ProductContextProvider(props: ProductContextProviderProps) {
 
   async function finishCheckout() {
     const u = auth.currentUser as any;
+    console.log(cart);
     try {
-      setCart([]);
-
       const docRef = doc(database, "orders", u.uid);
       const docSnap: any = await getDoc(docRef);
-      const DBCART: Product[] = docSnap.data().cart;
+      const DBCART: Product[] = docSnap.data()?.cart;
 
-      await setDoc(
-        doc(database, "orders", u.uid),
-        {
-          cart: DBCART.concat(cart),
-        },
-        { merge: true }
-      );
+      if (DBCART) {
+        await setDoc(
+          doc(database, "orders", u.uid),
+          {
+            cart: DBCART.concat(cart),
+          },
+          { merge: true }
+        );
+      } else {
+        await setDoc(
+          doc(database, "orders", u.uid),
+          {
+            cart,
+          },
+          { merge: true }
+        );
+      }
 
       const querySnapshot = await getDocs(collection(database, "products"));
 
@@ -339,8 +348,10 @@ export function ProductContextProvider(props: ProductContextProviderProps) {
         }
       });
 
+      setCart([]);
       return true;
     } catch (err) {
+      console.log(err);
       return false;
     }
   }

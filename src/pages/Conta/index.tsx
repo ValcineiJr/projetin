@@ -216,7 +216,7 @@ const Conta: React.FC = () => {
         </Modal>
         <form onSubmit={handleUpdateUserLocal}>
           {user?.level === "user" ? (
-            <a href="/history">Histórico de pedidos</a>
+            <Link to="/history">Histórico de pedidos</Link>
           ) : (
             <Link style={{ textAlign: "right" }} to="/estoque">
               Estoque
