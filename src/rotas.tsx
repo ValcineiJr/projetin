@@ -15,6 +15,9 @@ import EditarProduto from "./pages/EditarProduto";
 import Checkout from "./pages/Checkout";
 import History from "./pages/History";
 
+import Painel from "./pages/Painel/Home";
+import PainelLogin from "./pages/Painel/Login";
+
 export function AppRoutes() {
   return (
     <Router>
@@ -33,6 +36,9 @@ export function AppRoutes() {
         <Route path="/editar/produto/:id" element={<EditarProduto />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/history" element={<History />} />
+
+        <Route path="/painel" element={<Painel />} />
+        <Route path="/painel/login" element={<PainelLogin />} />
       </Routes>
     </Router>
   );

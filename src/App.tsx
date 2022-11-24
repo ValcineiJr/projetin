@@ -1,4 +1,5 @@
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import { AdminContextProvider } from "./contexts/AdminContext";
 import { AuthContextProvider } from "./contexts/AuthContext";
 import { ProductContextProvider } from "./contexts/ProductContext";
 import { AppRoutes } from "./rotas";
@@ -15,11 +16,13 @@ function App() {
           currency: "BRL",
         }}
       >
-        <AuthContextProvider>
-          <ProductContextProvider>
-            <AppRoutes />
-          </ProductContextProvider>
-        </AuthContextProvider>
+        <AdminContextProvider>
+          <AuthContextProvider>
+            <ProductContextProvider>
+              <AppRoutes />
+            </ProductContextProvider>
+          </AuthContextProvider>
+        </AdminContextProvider>
       </PayPalScriptProvider>
     </div>
   );

@@ -33,13 +33,16 @@ const Checkout: React.FC = () => {
     navigate("/");
   }
 
-  async function handleApprove(orderID: any) {
+  async function handleApprove(order: any) {
+    const created_at: string = order.create_time.substring(0, 10);
+    const orderID = order.id;
+
     setPaidFor("success");
     setMessage(
       "Compra realizada com sucesso, agora você pode acompanhar o seu pedido indo no seu perfil e em histórico de pedidos, você será redirecionado para página principal"
     );
     sendEmail();
-    await finishCheckout();
+    await finishCheckout(created_at);
     setColor(colors.success);
     setOrderID(orderID);
 
@@ -178,7 +181,11 @@ const Checkout: React.FC = () => {
               <span className="number">1</span>
               <span
                 className="title"
-                onClick={async () => await finishCheckout()}
+                onClick={async () =>
+                  await finishCheckout(
+                    new Date().toISOString().substring(0, 10)
+                  )
+                }
               >
                 Endereço de entrega
               </span>
@@ -248,9 +255,8 @@ const Checkout: React.FC = () => {
                   }}
                   onApprove={async (data, actions) => {
                     const order = await actions.order?.capture();
-                    console.log(order);
 
-                    handleApprove(order?.id);
+                    handleApprove(order);
                   }}
                   onError={(err) => {
                     console.log("Checkout Error: ", err);

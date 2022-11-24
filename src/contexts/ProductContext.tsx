@@ -25,6 +25,7 @@ export type Product = {
   description: any[];
   id: string;
   weight: number;
+  buyed_at?: Date;
 };
 
 type ProductContextType = {
@@ -53,7 +54,7 @@ type ProductContextType = {
     description?: any[]
   ) => Promise<boolean>;
   freteDate: string;
-  finishCheckout: () => Promise<boolean>;
+  finishCheckout: (created_at: string) => Promise<boolean>;
 };
 
 type ProductContextProviderProps = {
@@ -306,19 +307,26 @@ export function ProductContextProvider(props: ProductContextProviderProps) {
     }
   }
 
-  async function finishCheckout() {
+  async function finishCheckout(buyed_at: string) {
     const u = auth.currentUser as any;
-    console.log(cart);
+
     try {
       const docRef = doc(database, "orders", u.uid);
       const docSnap: any = await getDoc(docRef);
       const DBCART: Product[] = docSnap.data()?.cart;
+      let cartCopy: any = cart;
+      cartCopy = cartCopy.map((item: any) => {
+        return {
+          ...item,
+          buyed_at,
+        };
+      });
 
       if (DBCART) {
         await setDoc(
           doc(database, "orders", u.uid),
           {
-            cart: DBCART.concat(cart),
+            cart: DBCART.concat(cartCopy),
           },
           { merge: true }
         );
@@ -326,7 +334,7 @@ export function ProductContextProvider(props: ProductContextProviderProps) {
         await setDoc(
           doc(database, "orders", u.uid),
           {
-            cart,
+            cart: cartCopy,
           },
           { merge: true }
         );
@@ -348,7 +356,8 @@ export function ProductContextProvider(props: ProductContextProviderProps) {
         }
       });
 
-      setCart([]);
+      // setCart([]);
+      console.log(cartCopy);
       return true;
     } catch (err) {
       console.log(err);

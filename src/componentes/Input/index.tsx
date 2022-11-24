@@ -12,12 +12,14 @@ interface InputProps {
   errorMessage?: string;
   showError?: boolean;
   onBlur?: () => void;
+  required?: boolean;
 }
 
 const Input = ({
   mask = "",
   errorMessage = "",
   showError = false,
+  required = true,
   ...props
 }: InputProps) => {
   const [value, setValue] = useState(false);
@@ -34,7 +36,7 @@ const Input = ({
   } else {
     return (
       <Container>
-        <NormalInput {...props} />
+        <NormalInput required={required} {...props} />
       </Container>
     );
   }
