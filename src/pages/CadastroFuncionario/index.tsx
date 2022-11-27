@@ -17,7 +17,7 @@ const CadastroFuncioario: React.FC = () => {
   const [telefone, setTelefone] = React.useState<string>("");
   const [birth_date, setBirth_date] = React.useState<any>("");
   const [cpf, setCpf] = React.useState<string>("");
-
+  const [cepIsValid, setCepIsValid] = React.useState(false);
   const [cep, setCep] = React.useState<string>("");
   const [bairro, setBairro] = React.useState<string>("");
   const [numero, setNumero] = React.useState<any>();
@@ -44,7 +44,7 @@ const CadastroFuncioario: React.FC = () => {
       birth_date === "" ||
       cpf === "" ||
       numero === "" ||
-      cep.length < 8
+      !cepIsValid
     ) {
       setMessageColor(colors.error);
       setMessage("Todos os campos devem ser preenchidos corretamente!");
@@ -85,23 +85,24 @@ const CadastroFuncioario: React.FC = () => {
   }
 
   function buscarCep() {
-    if (cep.length < 8) {
-      return;
-    } else {
-      fetch(`https://viacep.com.br/ws/${cep}/json/`, { mode: "cors" })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.hasOwnProperty("erro")) {
-            alert("Cep não existente");
-          } else {
-            setBairro(data.bairro);
-            setCidade(data.localidade);
-            setEstado(data.uf);
-            setaddress(data.logradouro);
-          }
-        })
-        .catch((err) => console.log(err));
-    }
+    fetch(`https://viacep.com.br/ws/${cep}/json/`, { mode: "cors" })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.hasOwnProperty("erro")) {
+          alert("Cep não existente");
+          setCepIsValid(false);
+        } else {
+          setBairro(data.bairro);
+          setCidade(data.localidade);
+          setEstado(data.uf);
+          setaddress(data.logradouro);
+          setCepIsValid(true);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setCepIsValid(false);
+      });
   }
 
   function isInTheFuture(date: Date) {

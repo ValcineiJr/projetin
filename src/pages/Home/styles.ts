@@ -126,6 +126,7 @@ export const Container = styled.div<ContainerProps>`
 
       .title {
         font-size: 2rem;
+        color: whitesmoke;
       }
 
       .description {

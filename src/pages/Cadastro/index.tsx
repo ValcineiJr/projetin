@@ -19,6 +19,7 @@ const Cadastro: React.FC = () => {
   const [cpf, setCpf] = React.useState<string>("");
 
   const [cep, setCep] = React.useState<string>("");
+  const [cepIsValid, setCepIsValid] = React.useState(false);
   const [bairro, setBairro] = React.useState<string>("");
   const [numero, setNumero] = React.useState<any>("");
   const [cidade, setCidade] = React.useState<string>("");
@@ -34,6 +35,8 @@ const Cadastro: React.FC = () => {
   async function handleSubmitForm(e: any) {
     e.preventDefault();
 
+    console.log(cep.length);
+
     if (
       username === "" ||
       email === "" ||
@@ -43,7 +46,7 @@ const Cadastro: React.FC = () => {
       telefone === "" ||
       birth_date === "" ||
       cpf === "" ||
-      cep.length < 8
+      !cepIsValid
     ) {
       setMessageColor(colors.error);
       setMessage("Todos os campos devem ser preenchidos corretamente!");
@@ -84,23 +87,24 @@ const Cadastro: React.FC = () => {
   }
 
   function buscarCep() {
-    if (cep.length < 8) {
-      return;
-    } else {
-      fetch(`https://viacep.com.br/ws/${cep}/json/`, { mode: "cors" })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.hasOwnProperty("erro")) {
-            alert("Cep não existente");
-          } else {
-            setBairro(data.bairro);
-            setCidade(data.localidade);
-            setEstado(data.uf);
-            setaddress(data.logradouro);
-          }
-        })
-        .catch((err) => console.log(err));
-    }
+    fetch(`https://viacep.com.br/ws/${cep}/json/`, { mode: "cors" })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.hasOwnProperty("erro")) {
+          alert("Cep não existente");
+          setCepIsValid(false);
+        } else {
+          setBairro(data.bairro);
+          setCidade(data.localidade);
+          setEstado(data.uf);
+          setaddress(data.logradouro);
+          setCepIsValid(true);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setCepIsValid(false);
+      });
   }
 
   function isInTheFuture(date: Date) {

@@ -13,7 +13,6 @@ import {
   AiFillExclamationCircle,
 } from "react-icons/ai";
 import { useTheme } from "styled-components";
-const logo = require("../../assets/img/white-logo.jpeg");
 
 const Checkout: React.FC = () => {
   const location = useLocation();
@@ -28,6 +27,7 @@ const Checkout: React.FC = () => {
   const [oderID, setOrderID] = useState("");
   const [emailCartList, setEmailCartList] = useState<any>();
   const form: any = React.useRef();
+  const cartCopy = cart;
 
   async function redirect() {
     navigate("/");
@@ -39,7 +39,7 @@ const Checkout: React.FC = () => {
 
     setPaidFor("success");
     setMessage(
-      "Compra realizada com sucesso, agora você pode acompanhar o seu pedido indo no seu perfil e em histórico de pedidos, você será redirecionado para página principal"
+      "Compra realizada com sucesso, agora você pode acompanhar o seu pedido indo no seu perfil e em histórico de pedidos."
     );
     sendEmail();
     await finishCheckout(created_at);
@@ -205,7 +205,7 @@ const Checkout: React.FC = () => {
                 <span className="number">2</span>
                 <span className="title">Revisar itens e envio</span>
               </div>
-              {cart.map((item) => (
+              {cartCopy.map((item) => (
                 <div key={item.id} className="item">
                   <div className="item-img">
                     <img src={item.product_image} alt="" />

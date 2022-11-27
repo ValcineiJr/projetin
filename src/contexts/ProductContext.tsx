@@ -356,8 +356,7 @@ export function ProductContextProvider(props: ProductContextProviderProps) {
         }
       });
 
-      // setCart([]);
-      console.log(cartCopy);
+      setCart([]);
       return true;
     } catch (err) {
       console.log(err);
