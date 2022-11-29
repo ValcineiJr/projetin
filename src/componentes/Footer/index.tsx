@@ -28,8 +28,9 @@ const Footer: React.FC = () => {
             <BsTelephoneFill />
             <p className="bold">Venha nos visitar.</p>
             <p>
-              <span className="bold">Endereço:</span> Rua Justino de Araújo 431,
-              nº 3, Padre Miguel
+              <span className="bold">Endereço:</span>
+              <br />
+              <span> Rua Justino de Araújo 431, nº 3, Padre Miguel</span>
             </p>
           </div>
         </div>

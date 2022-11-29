@@ -16,15 +16,16 @@ export const Container = styled.div`
   }
 
   .contacts {
-    gap: 30px 0;
-
-    justify-content: space-around;
-
     display: flex;
+    width: 100%;
+    gap: 30px 0;
 
     .contact {
       display: flex;
       flex-direction: column;
+      flex: 1;
+
+      text-align: center;
 
       gap: 30px;
 

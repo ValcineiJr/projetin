@@ -130,7 +130,7 @@ const CadastroFuncioario: React.FC = () => {
           <p>{message}</p>
         </div>
         <form onSubmit={handleSubmitForm}>
-          <img src={require("../../assets/img/logo.png")} alt="" />
+          {/* <img src={require("../../assets/img/logo.png")} alt="" /> */}
           <h1>Cadastrar funcionário</h1>
           <div className="row">
             <input
