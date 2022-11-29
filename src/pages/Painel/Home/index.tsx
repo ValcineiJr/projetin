@@ -241,14 +241,7 @@ const Painel: React.FC = () => {
   }, [date1, date2]);
 
   function toggleMenu() {
-    const t = data;
-
-    if (t) t[0]["Vendas mensais"] = t[0]["Vendas mensais"] + 20;
-
-    setgraphKey((state) => (state += "1"));
-    setData(t);
-
-    // setVisible((state) => !state);
+    setVisible((state) => !state);
   }
 
   return (
