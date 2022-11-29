@@ -82,11 +82,30 @@ export const Container = styled.div<ContainerProps>`
     .graph {
       width: 100%;
       max-width: 700px;
-      height: 530px;
+      height: 600px;
 
       /* background-color: red; */
 
       margin: 0 auto;
+      .select {
+        display: flex;
+        gap: 20px;
+        /* height: 5px; */
+        width: 100%;
+        max-width: 200px;
+
+        margin: 0 auto;
+
+        font-size: 1.6rem;
+
+        /* background-color: red; */
+
+        div {
+          box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+            rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+          /* background-color: green; */
+        }
+      }
 
       .label {
         /* background-color: red; */
@@ -96,7 +115,7 @@ export const Container = styled.div<ContainerProps>`
 
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: center;
         gap: 20px;
 
         .info {
@@ -127,8 +146,10 @@ export const Container = styled.div<ContainerProps>`
     .header {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
       gap: 20px;
+
+      /* background-color: red; */
 
       margin-bottom: 20px;
 
@@ -141,6 +162,9 @@ export const Container = styled.div<ContainerProps>`
         display: flex;
         flex-direction: column;
         flex: 1;
+        text-align: center;
+
+        /* background-color: green; */
 
         p {
           font-size: 1.8rem;

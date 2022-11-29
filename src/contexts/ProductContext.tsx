@@ -25,7 +25,7 @@ export type Product = {
   description: any[];
   id: string;
   weight: number;
-  buyed_at?: Date;
+  buyed_at?: string;
 };
 
 type ProductContextType = {
