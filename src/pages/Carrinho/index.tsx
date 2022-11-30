@@ -141,8 +141,12 @@ const Carrinho: React.FC = () => {
               <button
                 onClick={() => {
                   const itemsCompra = cart.map((item, index) => {
+                    const n =
+                      item.name.length >= 100
+                        ? item.name.substring(1, 80)
+                        : item.name;
                     return {
-                      name: item.name,
+                      name: n,
                       unit_amount: {
                         value: String(item.price.toFixed(2)),
                         currency_code: "BRL",
