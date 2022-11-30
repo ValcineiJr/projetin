@@ -7,6 +7,28 @@ interface ContainerProps {
 export const Container = styled.div<ContainerProps>`
   position: relative;
 
+  nav {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 20px;
+
+    a {
+      font-size: 1.6rem;
+      color: black;
+
+      width: 80%;
+      margin-right: auto;
+      padding: 16px;
+
+      box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
+        rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    }
+  }
+
   table {
     width: 100%;
     max-width: 1000px;

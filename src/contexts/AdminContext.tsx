@@ -1,4 +1,11 @@
-import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+} from "firebase/firestore";
 import { createContext, ReactNode } from "react";
 import { database } from "../services/firebase";
 import { Product } from "./ProductContext";
@@ -28,6 +35,7 @@ type AdminContextType = {
   >;
   getOrders: () => Promise<Product[]>;
   updateOrders: (status: string, id: string) => Promise<boolean>;
+  deleteOrder: (id: string) => Promise<boolean>;
 };
 
 type AdminContextProviderProps = {
@@ -247,27 +255,38 @@ export function AdminContextProvider(props: AdminContextProviderProps) {
   async function updateOrders(status: string, id: string) {
     try {
       const rawItem: any = await getDoc(doc(database, "orders", id));
-      const item: Product = rawItem.data();
+      const item: any = rawItem.data();
 
-      // item.status = status;
+      item.cart[0].status = status;
 
-      console.log(item);
-
-      // await setDoc(
-      //   doc(database, "orders", id),
-      //   {
-      //     status,
-      //   },
-      //   { merge: true }
-      // );
+      await setDoc(
+        doc(database, "orders", id),
+        {
+          cart: item.cart,
+        },
+        { merge: true }
+      );
       return true;
     } catch (err) {
       console.log(err);
       return false;
     }
   }
+
+  async function deleteOrder(id: string) {
+    const Ref = doc(database, "orders", id);
+
+    try {
+      await deleteDoc(Ref);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
   return (
-    <AdminContext.Provider value={{ getMothValues, getOrders, updateOrders }}>
+    <AdminContext.Provider
+      value={{ getMothValues, getOrders, updateOrders, deleteOrder }}
+    >
       {props.children}
     </AdminContext.Provider>
   );

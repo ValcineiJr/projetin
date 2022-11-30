@@ -11,12 +11,12 @@ import { Container } from "./styles";
 const Orders: React.FC = () => {
   const [visible, setVisible] = useState(false);
   const [orders, setOrders] = useState<Product[]>([]);
-  const [status, setStatus] = useState("");
+
   const [randomKey, setRandomKey] = useState("1");
-  const { getOrders, updateOrders } = useAdmin();
+  const { getOrders, updateOrders, deleteOrder } = useAdmin();
 
   async function toggleMenu() {
-    // setVisible((state) => !state);
+    setVisible((state) => !state);
   }
 
   useEffect(() => {
@@ -27,11 +27,6 @@ const Orders: React.FC = () => {
 
     getData();
   }, []);
-
-  // useEffect(() => {
-  //   if (randomKey !== "1") {
-  //   }
-  // }, [randomKey]);
 
   return (
     <Container visible={visible}>
@@ -47,18 +42,14 @@ const Orders: React.FC = () => {
       <div className="content">
         <table key={randomKey}>
           <thead>
-            {/* <tr>
-              <th style={{ borderTopLeftRadius: 10 }} className="title">
-                Todos os produtos
+            <tr>
+              <th
+                style={{ borderTopLeftRadius: 10, borderTopRightRadius: 10 }}
+                className="title"
+              >
+                Todos os pedidos
               </th>
-              <th style={{ borderTopRightRadius: 10 }}>
-                <select onChange={(e) => setCategory(e.target.value)}>
-                  {categories.map((item) => (
-                    <option value={item}>{item}</option>
-                  ))}
-                </select>
-              </th>
-            </tr> */}
+            </tr>
             <tr>
               <th className="bold">ID:</th>
               <th className="bold">Nome:</th>
@@ -83,7 +74,7 @@ const Orders: React.FC = () => {
                 <td style={{ padding: 16 }}>{item.name}</td>
                 <td>{item.quantity}</td>
                 <td>{formatter.format(item.price)}</td>
-                <td>{item?.status}</td>
+                <td style={{ fontWeight: "bold" }}>{item?.status}</td>
                 <td>
                   <button
                     onClick={async () => {
@@ -94,15 +85,26 @@ const Orders: React.FC = () => {
                         copy[index].status = "Pedido entregue";
                       }
 
-                      setOrders(copy);
-                      setRandomKey((state) => (state += "1"));
+                      // setOrders(copy);
 
-                      await updateOrders(copy[index].status, item.uid);
+                      setRandomKey((state) => (state += "1"));
+                      console.log(
+                        await updateOrders(copy[index].status, item.uid)
+                      );
                     }}
                   >
                     Alterar
                   </button>
-                  <button>Excluir</button>
+                  <button
+                    onClick={async () => {
+                      const ind = orders.filter((i) => item.name !== i.name);
+                      setOrders(ind);
+
+                      await deleteOrder(item.uid);
+                    }}
+                  >
+                    Excluir
+                  </button>
                 </td>
               </tr>
             ))}

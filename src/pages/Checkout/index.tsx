@@ -46,7 +46,7 @@ const Checkout: React.FC = () => {
     setColor(colors.success);
     setOrderID(orderID);
 
-    setTimeout(redirect, 3000);
+    // setTimeout(redirect, 3000);
   }
 
   const sendEmail = () => {
