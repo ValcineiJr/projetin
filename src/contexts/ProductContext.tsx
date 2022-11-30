@@ -26,6 +26,9 @@ export type Product = {
   id: string;
   weight: number;
   buyed_at?: string;
+  status: string;
+  orderID?: string;
+  uid: string;
 };
 
 type ProductContextType = {
@@ -54,7 +57,7 @@ type ProductContextType = {
     description?: any[]
   ) => Promise<boolean>;
   freteDate: string;
-  finishCheckout: (created_at: string) => Promise<boolean>;
+  finishCheckout: (created_at: string, orderID: string) => Promise<boolean>;
 };
 
 type ProductContextProviderProps = {
@@ -307,7 +310,7 @@ export function ProductContextProvider(props: ProductContextProviderProps) {
     }
   }
 
-  async function finishCheckout(buyed_at: string) {
+  async function finishCheckout(buyed_at: string, orderID: string) {
     const u = auth.currentUser as any;
 
     try {
@@ -319,6 +322,9 @@ export function ProductContextProvider(props: ProductContextProviderProps) {
         return {
           ...item,
           buyed_at,
+          orderID,
+          status: "Pedido recebido",
+          uid: u.uid,
         };
       });
 

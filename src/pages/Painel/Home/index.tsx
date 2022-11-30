@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../hook/useAuth";
 import { FaBars } from "react-icons/fa";
 import {
@@ -241,14 +241,7 @@ const Painel: React.FC = () => {
   }, [date1, date2]);
 
   function toggleMenu() {
-    const t = data;
-
-    if (t) t[0]["Vendas mensais"] = t[0]["Vendas mensais"] + 20;
-
-    setgraphKey((state) => (state += "1"));
-    setData(t);
-
-    // setVisible((state) => !state);
+    setVisible((state) => !state);
   }
 
   return (
@@ -257,7 +250,10 @@ const Painel: React.FC = () => {
         <button onClick={toggleMenu}>
           <FaBars />
         </button>
-        <nav></nav>
+        <nav>
+          <Link to="/painel">Dashboard</Link>
+          <Link to="/painel/orders">Pedidos</Link>
+        </nav>
       </div>
       <div className="content">
         <header>

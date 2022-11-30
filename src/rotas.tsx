@@ -17,6 +17,7 @@ import History from "./pages/History";
 
 import Painel from "./pages/Painel/Home";
 import PainelLogin from "./pages/Painel/Login";
+import PainelOrders from "./pages/Painel/Orders";
 
 export function AppRoutes() {
   return (
@@ -39,6 +40,7 @@ export function AppRoutes() {
 
         <Route path="/painel" element={<Painel />} />
         <Route path="/painel/login" element={<PainelLogin />} />
+        <Route path="/painel/orders" element={<PainelOrders />} />
       </Routes>
     </Router>
   );

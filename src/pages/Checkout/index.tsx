@@ -42,7 +42,7 @@ const Checkout: React.FC = () => {
       "Compra realizada com sucesso, agora você pode acompanhar o seu pedido indo no seu perfil e em histórico de pedidos."
     );
     sendEmail();
-    await finishCheckout(created_at);
+    await finishCheckout(created_at, orderID);
     setColor(colors.success);
     setOrderID(orderID);
 
@@ -164,8 +164,6 @@ const Checkout: React.FC = () => {
     setEmailCartList(container);
   }, []);
 
-  // const testList = "";
-
   return (
     <Layout>
       <Container>
@@ -179,16 +177,7 @@ const Checkout: React.FC = () => {
           <section>
             <div className="box">
               <span className="number">1</span>
-              <span
-                className="title"
-                onClick={async () =>
-                  await finishCheckout(
-                    new Date().toISOString().substring(0, 10)
-                  )
-                }
-              >
-                Endereço de entrega
-              </span>
+              <span className="title">Endereço de entrega</span>
               <div className="info">
                 <p>{user?.name}</p>
                 <p>{user?.address}</p>

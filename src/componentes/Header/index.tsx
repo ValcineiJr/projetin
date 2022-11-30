@@ -4,7 +4,12 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { Container } from "./styles";
 
-import { AiTwotoneHome, AiOutlineLogin, AiOutlineLogout } from "react-icons/ai";
+import {
+  AiTwotoneHome,
+  AiOutlineLogin,
+  AiOutlineLogout,
+  AiFillTool,
+} from "react-icons/ai";
 import { FaShoppingCart, FaUserCircle, FaBars } from "react-icons/fa";
 import { GiPerson } from "react-icons/gi";
 import { MdEmail } from "react-icons/md";
@@ -97,6 +102,14 @@ const Header: React.FC = () => {
                         </li>
                       );
                     }
+                    if (item.name === "Contato") {
+                      return (
+                        <li key={String(index)}>
+                          <AiFillTool />
+                          <Link to="/painel">Painel</Link>
+                        </li>
+                      );
+                    }
                   }
 
                   if (user.level === "admin") {
@@ -107,6 +120,14 @@ const Header: React.FC = () => {
                           <Link to="/cadastro/funcionario">
                             Cadastrar funcionário
                           </Link>
+                        </li>
+                      );
+                    }
+                    if (item.name === "Contato") {
+                      return (
+                        <li key={String(index)}>
+                          <AiFillTool />
+                          <Link to="/painel">Painel</Link>
                         </li>
                       );
                     }

@@ -1,4 +1,4 @@
-import { collection, getDocs } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { createContext, ReactNode } from "react";
 import { database } from "../services/firebase";
 import { Product } from "./ProductContext";
@@ -26,6 +26,8 @@ type AdminContextType = {
       }
     | undefined
   >;
+  getOrders: () => Promise<Product[]>;
+  updateOrders: (status: string, id: string) => Promise<boolean>;
 };
 
 type AdminContextProviderProps = {
@@ -198,8 +200,6 @@ export function AdminContextProvider(props: AdminContextProviderProps) {
         DezValue,
       ];
 
-      console.log(data);
-
       return {
         yearTotal,
         yearTotalCount,
@@ -220,8 +220,54 @@ export function AdminContextProvider(props: AdminContextProviderProps) {
       console.log(error);
     }
   }
+
+  async function getOrders() {
+    const allOrders: any = [];
+    const finalData: Product[] = [];
+
+    try {
+      const querySnapshot = await getDocs(collection(database, "orders"));
+      querySnapshot.forEach((doc) => {
+        allOrders.push(doc.data());
+      });
+
+      allOrders.map((item: any) => {
+        return item.cart.map((i: any) => {
+          finalData.push(i);
+        });
+      });
+
+      console.log(finalData);
+      return finalData;
+    } catch (error) {
+      return finalData;
+    }
+  }
+
+  async function updateOrders(status: string, id: string) {
+    try {
+      const rawItem: any = await getDoc(doc(database, "orders", id));
+      const item: Product = rawItem.data();
+
+      // item.status = status;
+
+      console.log(item);
+
+      // await setDoc(
+      //   doc(database, "orders", id),
+      //   {
+      //     status,
+      //   },
+      //   { merge: true }
+      // );
+      return true;
+    } catch (err) {
+      console.log(err);
+      return false;
+    }
+  }
   return (
-    <AdminContext.Provider value={{ getMothValues }}>
+    <AdminContext.Provider value={{ getMothValues, getOrders, updateOrders }}>
       {props.children}
     </AdminContext.Provider>
   );

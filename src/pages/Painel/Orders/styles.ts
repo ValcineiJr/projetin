@@ -7,25 +7,81 @@ interface ContainerProps {
 export const Container = styled.div<ContainerProps>`
   position: relative;
 
-  nav {
+  table {
     width: 100%;
-    height: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+
+    border: 0;
 
     display: flex;
     flex-direction: column;
 
-    gap: 20px;
-
-    a {
+    .title {
       font-size: 1.6rem;
-      color: black;
+    }
 
-      width: 80%;
-      margin-right: auto;
-      padding: 16px;
+    tr {
+      display: flex;
+    }
 
-      box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
-        rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    th {
+      background-color: #009ddc;
+      color: white;
+      /* border-radius: 5px; */
+    }
+
+    th.bold {
+      font-weight: bold;
+      font-size: 1.4rem;
+    }
+
+    td {
+      gap: 20px;
+      border: 1px solid rgb(222, 224, 228);
+
+      font-size: 1.4rem;
+    }
+
+    th,
+    td {
+      flex: 1;
+      min-height: 50px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    tbody {
+      button,
+      a.button {
+        background-color: #1111b3;
+
+        padding: 5px 16px;
+
+        color: white;
+        font-size: 1.6rem;
+
+        border-radius: 5px;
+
+        font-family: "Poppins", sans-serif;
+      }
+    }
+
+    select {
+      border: none;
+      outline: none;
+      width: 100%;
+      height: 100%;
+
+      text-align: center;
+
+      background-color: rgb(222, 224, 228);
+      border-top-right-radius: 10px;
+
+      color: #1b1b1b;
     }
   }
 
