@@ -240,12 +240,20 @@ export function AdminContextProvider(props: AdminContextProviderProps) {
       });
 
       allOrders.map((item: any) => {
-        return item.cart.map((i: any) => {
-          finalData.push(i);
+        return item.cart.map((i: any, index: number) => {
+          const id = finalData
+            .map((object) => object.orderID)
+            .indexOf(i.orderID);
+
+          if (id !== -1) {
+            finalData[id].name += `, ${i.name} `;
+            finalData[id].price += i.price;
+          } else {
+            finalData.push(i);
+          }
         });
       });
 
-      console.log(finalData);
       return finalData;
     } catch (error) {
       return finalData;
