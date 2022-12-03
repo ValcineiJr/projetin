@@ -323,7 +323,7 @@ export function ProductContextProvider(props: ProductContextProviderProps) {
           ...item,
           buyed_at,
           orderID,
-          status: "Pedido recebido",
+          status: "Pedido pago",
           uid: u.uid,
         };
       });

@@ -65,11 +65,7 @@ const Orders: React.FC = () => {
           <tbody>
             {orders?.map((item, index) => {
               const names = item.name.split(",");
-              let stat = [
-                "Pedido entregue",
-                "Pedido recebido",
-                "Pedido enviado",
-              ];
+              let stat = ["Pedido entregue", "Pedido pago", "Pedido enviado"];
               stat.sort((a) => {
                 if (a === item.status) {
                   return -1;

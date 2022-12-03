@@ -59,7 +59,7 @@ type AuthContextType = {
     cep: string,
     level: string,
     numero: number
-  ) => Promise<boolean>;
+  ) => Promise<string>;
   handleResetPassword: (email: string) => Promise<boolean>;
   handleLogin: (email: string, password: string) => Promise<boolean>;
   handleSignOut: () => Promise<void>;
@@ -135,39 +135,61 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     level: string,
     numero: number
   ) {
-    const createdUser = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+    try {
+      const querySnapshot = await getDocs(collection(database, "users"));
+      const allUsers: User[] = [];
+      let response = "Conta criada com sucesso";
 
-    if (createdUser) {
-      const userdata = {
-        id: createdUser.user.uid,
-        name,
+      querySnapshot.forEach((doc: any) => {
+        allUsers.push(doc.data());
+      });
+
+      if (allUsers.filter((item) => item.email === email).length > 0) {
+        response = "Esse existe email já foi cadastrado";
+        return response;
+      }
+      if (allUsers.filter((item) => item.cpf === cpf).length > 0) {
+        response = "Esse cpf Já cadastrado";
+        return response;
+      }
+      if (allUsers.filter((item) => item.telefone === telefone).length > 0) {
+        response = "Esse telefone já foi cadastrado";
+        return response;
+      }
+
+      const createdUser = await createUserWithEmailAndPassword(
+        auth,
         email,
-        address,
-        telefone,
-        birth_date,
-        cpf,
-        password,
-        level,
-        estado,
-        cidade,
-        bairro,
-        numero,
-        cep,
-      };
+        password
+      );
 
-      try {
+      if (createdUser) {
+        const userdata = {
+          id: createdUser.user.uid,
+          name,
+          email,
+          address,
+          telefone,
+          birth_date,
+          cpf,
+          password,
+          level,
+          estado,
+          cidade,
+          bairro,
+          numero,
+          cep,
+        };
+
         await setDoc(doc(database, "users/", createdUser.user.uid), userdata);
         setUser(userdata);
-        return true;
-      } catch (error) {
-        return false;
       }
-    } else {
-      return false;
+
+      return response;
+    } catch (error) {
+      const response = "Erro ao criar conta";
+
+      return response;
     }
   }
 

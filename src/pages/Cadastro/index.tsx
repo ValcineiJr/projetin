@@ -35,8 +35,6 @@ const Cadastro: React.FC = () => {
   async function handleSubmitForm(e: any) {
     e.preventDefault();
 
-    console.log(cep.length);
-
     if (
       username === "" ||
       email === "" ||
@@ -75,13 +73,13 @@ const Cadastro: React.FC = () => {
         "user",
         numero
       );
-      if (result) {
+      if (result === "Conta criada com sucesso") {
         setMessageColor(colors.success);
-        setMessage("Conta criada com sucesso");
-        navigate(`/`);
+        setMessage(result);
+        // navigate(`/`);
       } else {
         setMessageColor(colors.error);
-        setMessage("Erro ao criar conta");
+        setMessage(result);
       }
     }
   }
@@ -232,9 +230,6 @@ const Cadastro: React.FC = () => {
               value={birth_date}
               onChange={(e) => setBirth_date(e.target.value)}
               placeholder="data"
-              onBlur={() => {
-                console.log(isInTheFuture(new Date(birth_date)));
-              }}
             />
           </div>
           <div className="row">

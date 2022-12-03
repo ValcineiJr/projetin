@@ -73,13 +73,13 @@ const CadastroFuncioario: React.FC = () => {
         "user",
         numero
       );
-      if (result) {
+      if (result === "Conta criada com sucesso") {
         setMessageColor(colors.success);
-        setMessage("Conta criada com sucesso");
+        setMessage(result);
         navigate(`/`);
       } else {
         setMessageColor(colors.error);
-        setMessage("Erro ao criar conta");
+        setMessage(result);
       }
     }
   }
