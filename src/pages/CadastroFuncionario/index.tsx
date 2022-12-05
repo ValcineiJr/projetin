@@ -44,7 +44,8 @@ const CadastroFuncioario: React.FC = () => {
       birth_date === "" ||
       cpf === "" ||
       numero === "" ||
-      !cepIsValid
+      !cepIsValid ||
+      telefone.length >= 14
     ) {
       setMessageColor(colors.error);
       setMessage("Todos os campos devem ser preenchidos corretamente!");
@@ -228,6 +229,7 @@ const CadastroFuncioario: React.FC = () => {
               onChange={(e: any) => setTelefone(e.target.value)}
               placeholder="Telefone"
               mask="(99)99999-9999"
+              maskPlaceholder=""
             />
 
             <input

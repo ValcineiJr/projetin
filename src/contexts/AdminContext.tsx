@@ -34,7 +34,11 @@ type AdminContextType = {
     | undefined
   >;
   getOrders: () => Promise<Product[]>;
-  updateOrders: (status: string, id: string) => Promise<boolean>;
+  updateOrders: (
+    status: string,
+    id: string,
+    orderID: string
+  ) => Promise<boolean>;
   deleteOrder: (id: string) => Promise<boolean>;
 };
 
@@ -260,12 +264,18 @@ export function AdminContextProvider(props: AdminContextProviderProps) {
     }
   }
 
-  async function updateOrders(status: string, id: string) {
+  async function updateOrders(status: string, id: string, orderID: string) {
     try {
       const rawItem: any = await getDoc(doc(database, "orders", id));
       const item: any = rawItem.data();
 
-      item.cart[0].status = status;
+      item.cart.map((item: Product) => {
+        if (item.orderID === orderID) {
+          item.status = status;
+        }
+      });
+
+      // console.log(item.cart);
 
       await setDoc(
         doc(database, "orders", id),

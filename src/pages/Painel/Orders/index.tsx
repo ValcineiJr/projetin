@@ -111,7 +111,11 @@ const Orders: React.FC = () => {
                         // setRandomKey((state) => (state += "1"));
 
                         if (handleStatus !== item.status) {
-                          await updateOrders(handleStatus, item.uid);
+                          await updateOrders(
+                            handleStatus,
+                            item.uid,
+                            item.orderID
+                          );
                         }
                       }}
                     >

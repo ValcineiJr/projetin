@@ -39,10 +39,27 @@ export const Container = styled.div`
     padding: 16px;
     border: 1px solid #ddd;
     border-radius: 5px;
-    gap: 20px;
+
     display: flex;
 
+    justify-content: space-between;
+
     margin: 10px 0;
+
+    .separator {
+      gap: 20px;
+      display: flex;
+    }
+
+    .status {
+      font-size: 1.4rem;
+      color: #0f1111;
+      font-weight: bold;
+
+      margin-left: 20px;
+
+      text-align: center;
+    }
 
     .info {
       display: flex;
@@ -68,7 +85,7 @@ export const Container = styled.div`
     }
 
     .item-price {
-      color: #dc3545;
+      color: #0f1111;
     }
 
     .item-img {

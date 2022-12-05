@@ -39,14 +39,13 @@ const Checkout: React.FC = () => {
 
     setPaidFor("success");
     setMessage(
-      "Compra realizada com sucesso, agora você pode acompanhar o seu pedido indo no seu perfil e em histórico de pedidos."
+      "Compra realizada com sucesso, agora você pode acompanhar o seu pedido indo no até o seu e-mail, lá terá o código da sua compra. Em minha conta, vá em histórico de compra, para ver os produtos que foram comprados."
     );
-    sendEmail();
-    await finishCheckout(created_at, orderID);
     setColor(colors.success);
     setOrderID(orderID);
 
-    // setTimeout(redirect, 3000);
+    setTimeout(sendEmail, 2000);
+    await finishCheckout(created_at, orderID);
   }
 
   const sendEmail = () => {
@@ -152,8 +151,8 @@ const Checkout: React.FC = () => {
     
     Agradecemos por comprar conosco! <br />
     Recebemos o seu pedido, este é o código para que você possa acompanhar ele.  <br />
-
-        Você também pode acompanhar o seu pedido ao efetuar o login no site <br /> <a href='https://screedgames.netlify.app' target='_blank'>https://screedgames.netlify.app</a> <br /> ir no seu perfil e em histórico de pedidos.</span>`;
+    <h3>${oderID}</h3> <br />
+    Você também pode acompanhar o seu pedido ao efetuar o login no site <br /> <a href='https://screedgames.netlify.app' target='_blank'>https://screedgames.netlify.app</a> <br /> ir no seu perfil e em histórico de pedidos.</span>`;
 
     const container =
       `<div style='margin:0 auto; width:100%; max-width:600px;'>` +
@@ -162,7 +161,7 @@ const Checkout: React.FC = () => {
       footer +
       `</div>`;
     setEmailCartList(container);
-  }, []);
+  }, [oderID]);
 
   return (
     <Layout>
@@ -214,9 +213,7 @@ const Checkout: React.FC = () => {
                 </div>
               ))}
 
-              <div className="frete" onClick={() => redirect()}>
-                Entrega estimada: {freteDate}
-              </div>
+              <div className="frete">Entrega estimada: {freteDate}</div>
             </div>
           </section>
           <aside>

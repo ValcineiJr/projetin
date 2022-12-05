@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   padding: 0 16px;
-
-  height: 55vh;
+  padding-top: 100px;
+  min-height: 60vh;
 
   .row {
     display: flex;
@@ -69,6 +69,7 @@ export const Container = styled.div`
 
   form {
     position: relative;
+
     a {
       position: absolute;
 
@@ -94,8 +95,6 @@ export const Container = styled.div`
       left: 16px;
       top: 48px;
     }
-
-    margin-top: 100px;
 
     padding: 20px;
 

@@ -27,7 +27,7 @@ export type Product = {
   weight: number;
   buyed_at?: string;
   status: string;
-  orderID?: string;
+  orderID: string;
   uid: string;
 };
 

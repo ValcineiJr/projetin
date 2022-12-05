@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Container = styled.div`
   padding: 0 16px;
   padding-top: 100px;
-  height: 60vh;
+  min-height: 60vh;
 
   .messageBox,
   form {

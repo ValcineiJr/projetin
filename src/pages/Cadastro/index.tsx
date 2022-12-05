@@ -44,7 +44,8 @@ const Cadastro: React.FC = () => {
       telefone === "" ||
       birth_date === "" ||
       cpf === "" ||
-      !cepIsValid
+      !cepIsValid ||
+      telefone.length >= 14
     ) {
       setMessageColor(colors.error);
       setMessage("Todos os campos devem ser preenchidos corretamente!");
@@ -76,7 +77,7 @@ const Cadastro: React.FC = () => {
       if (result === "Conta criada com sucesso") {
         setMessageColor(colors.success);
         setMessage(result);
-        // navigate(`/`);
+        navigate(`/`);
       } else {
         setMessageColor(colors.error);
         setMessage(result);
@@ -217,9 +218,11 @@ const Cadastro: React.FC = () => {
           <div className="row">
             <InputMask
               type="text"
-              required
+              maskPlaceholder=""
               value={telefone}
-              onChange={(e: any) => setTelefone(e.target.value)}
+              onChange={(e: any) => {
+                setTelefone(e.target.value);
+              }}
               placeholder="Telefone"
               mask="(99)99999-9999"
             />
@@ -237,7 +240,6 @@ const Cadastro: React.FC = () => {
               maxLength={14}
               type="text"
               required
-              // mask="999.999.999-99"
               value={cpf}
               onChange={(e) => setCpf(c.format(e.target.value))}
               placeholder="Cpf"
