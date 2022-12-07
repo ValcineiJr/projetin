@@ -49,7 +49,7 @@ export const Container = styled.div<ContainerProps>`
     .img-container {
       width: 100%;
       height: 560px;
-      z-index: 1 !important;
+      z-index: -1;
 
       img {
         width: 100%;

@@ -45,7 +45,7 @@ const Cadastro: React.FC = () => {
       birth_date === "" ||
       cpf === "" ||
       !cepIsValid ||
-      telefone.length >= 14
+      telefone.length >= 13
     ) {
       setMessageColor(colors.error);
       setMessage("Todos os campos devem ser preenchidos corretamente!");
