@@ -70,11 +70,7 @@ const Checkout: React.FC = () => {
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
 
     const header = `
-    <header style=' width:100%;'>
-      <div style='height:150px; width:100%;' > 
-        <img  style='display: block; margin-left: auto; margin-right: auto; height:100%;' src='https://i.imgur.com/DswSNN2.jpg' />
-      </div>
-          
+    <header style=' width:100%;'>         
       <div style='padding-top:50px; height:100px; background-image: linear-gradient(90deg, #020024, #070561, #0e0eb8, #09087d); color:white; font-size:28px; text-align:center; font-family:Arial;'>
         Compra realizada com sucesso :)
       </div>
