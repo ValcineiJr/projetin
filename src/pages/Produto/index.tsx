@@ -27,7 +27,7 @@ const Produto: React.FC = () => {
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
     if (user) {
       setCartToStorage(product);
-      setMessage("Item adicionado ao carrinho som sucesso.");
+      setMessage("Item adicionado ao carrinho com sucesso.");
       setMessageColor(colors.success);
     } else {
       setMessage("Precisa estar logado para adicionar um item ao carrinho.");

@@ -76,7 +76,7 @@ const Categorias: React.FC = () => {
                       onClick={() => {
                         window.scrollTo({ top: 0, left: 0, behavior: "auto" });
                         setCartToStorage(item);
-                        setMessage("Item adicionado ao carrinho som sucesso.");
+                        setMessage("Item adicionado ao carrinho com sucesso.");
                       }}
                     >
                       <FaShoppingCart />

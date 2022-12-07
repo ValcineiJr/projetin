@@ -11,6 +11,7 @@ import { Container } from "./styles";
 
 const Orders: React.FC = () => {
   const [visible, setVisible] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
   const [orders, setOrders] = useState<Product[]>([]);
 
   const [randomKey] = useState("1");
@@ -30,8 +31,16 @@ const Orders: React.FC = () => {
     getData();
   }, []);
 
+  useEffect(() => {
+    if (showMessage) {
+      setTimeout(() => {
+        setShowMessage(false);
+      }, 3000);
+    }
+  }, [showMessage]);
+
   return (
-    <Container visible={visible}>
+    <Container visible={visible} showMessage={showMessage}>
       <div className="menu">
         <button onClick={toggleMenu}>
           <FaBars />
@@ -41,7 +50,11 @@ const Orders: React.FC = () => {
           <Link to="/painel/orders">Pedidos</Link>
         </nav>
       </div>
+
       <div className="content">
+        <div className="messageBox">
+          <span>O status do pedido foi atualizado com sucesso.</span>
+        </div>
         <table key={randomKey}>
           <thead>
             <tr>
@@ -116,6 +129,8 @@ const Orders: React.FC = () => {
                             item.uid,
                             item.orderID
                           );
+
+                          setShowMessage(true);
                         }
                       }}
                     >

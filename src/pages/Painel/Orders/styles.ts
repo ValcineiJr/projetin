@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 interface ContainerProps {
   visible: boolean;
+  showMessage: boolean;
 }
 
 export const Container = styled.div<ContainerProps>`
@@ -29,10 +30,26 @@ export const Container = styled.div<ContainerProps>`
     }
   }
 
+  .messageBox {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+
+    padding: 16px;
+
+    background-color: ${({ theme }) => theme.colors.success};
+    color: white;
+    font-size: 1.6rem;
+
+    display: ${({ showMessage }) => (showMessage ? "flex" : "none")};
+  }
+
   table {
     width: 100%;
     max-width: 1000px;
     margin: 0 auto;
+
+    margin-top: 40px;
 
     border: 0;
 

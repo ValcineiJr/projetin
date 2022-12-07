@@ -82,7 +82,7 @@ const Home: React.FC = () => {
                         onClick={() => {
                           setCartToStorage(item);
                           setMessage(
-                            "Item adicionado ao carrinho som sucesso."
+                            "Item adicionado ao carrinho com sucesso."
                           );
                         }}
                       >
