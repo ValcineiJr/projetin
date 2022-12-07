@@ -44,14 +44,16 @@ const CadastroFuncioario: React.FC = () => {
       birth_date === "" ||
       cpf === "" ||
       numero === "" ||
-      !cepIsValid ||
-      telefone.length >= 13
+      !cepIsValid
     ) {
       setMessageColor(colors.error);
       setMessage("Todos os campos devem ser preenchidos corretamente!");
     } else if (password !== confirm_password) {
       setMessageColor(colors.error);
       setMessage("As senhas devem combinar");
+    } else if (telefone.length !== 14) {
+      setMessageColor(colors.error);
+      setMessage("Preencha o telefone corretamente");
     } else if (isInTheFuture(new Date(birth_date))) {
       setMessageColor(colors.error);
       setMessage("Forneça uma data de nascimento válida");
