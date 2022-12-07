@@ -92,7 +92,7 @@ export function ProductContextProvider(props: ProductContextProviderProps) {
       c.map((item) => (total += item.price * item.quantity));
       setCart(c);
       const f = JSON.parse(freteStorage ?? "0");
-      const fd = JSON.parse(freteStorageDate ?? "{}");
+      const fd = JSON.parse(freteStorageDate ?? "0");
       setFrete(f);
       setTotalCartValue(total);
       setFreteDate(fd);
@@ -208,12 +208,9 @@ export function ProductContextProvider(props: ProductContextProviderProps) {
         }
 
         if (!localStorage.getItem(freteDateStorageKey)) {
-          const partida = randomDate();
-          setFreteDate(partida.toLocaleDateString());
-          localStorage.setItem(
-            freteDateStorageKey,
-            JSON.stringify(Number(partida))
-          );
+          const partida = randomDate().toLocaleDateString();
+          setFreteDate(partida);
+          localStorage.setItem(freteDateStorageKey, JSON.stringify(partida));
         }
 
         return [
